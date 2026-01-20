@@ -184,6 +184,7 @@ Page({
             data: {
                 tag: "mytasklist", // NEW TAG
                 p: page + 1,
+                hyid: app.globalData.hyid,
                 time: time,
                 times: times,
                 zgState: zgState,
