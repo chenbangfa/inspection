@@ -1146,7 +1146,7 @@ switch ($tag) {
 		}
 
 		$zgState = $db->getzgstate($row["zgState"]);
-		$dtinfo[] = array("id" => $row["id"], "hypic" => $hypic, "hyname" => $row["hyName"], "gsName" => $row["gsName"], "yhAdd" => $row["yhAdd"], "yhPosition" => $row["yhPosition"], "yhContent" => $row["yhContent"], "yhSpeciality" => $row["yhSpeciality"], "together" => $row["together"], "posAdd" => $row["posAdd"], "inState" => $row["inState"], "zgAsk" => $row["zgAsk"], "zgTime" => $row["zgTime"], "zgState" => $zgState, "State" => $row["zgState"], "addTime" => $row["addTime"]);
+		$dtinfo[] = array("id" => $row["id"], "hypic" => $hypic, "hyname" => $row["hyName"], "gsName" => $row["gsName"], "yhAdd" => $row["yhAdd"], "yhPosition" => $row["yhPosition"], "yhContent" => $row["yhContent"], "yhSpeciality" => $row["yhSpeciality"], "together" => $row["together"], "posAdd" => $row["posAdd"], "inState" => ($row["inState"] ?? ""), "zgAsk" => $row["zgAsk"], "zgTime" => $row["zgTime"], "zgState" => $zgState, "State" => $row["zgState"], "addTime" => $row["addTime"]);
 		$dtinfo = array("dtinfo" => $dtinfo);
 		$resV = json_encode($dtinfo);
 		break;
@@ -1169,6 +1169,10 @@ switch ($tag) {
 			$whe .= " and FIND_IN_SET(yhSpeciality,'$zysearch')";
 		if ($together != '')
 			$whe .= " and FIND_IN_SET(hyName,'$together')";
+		$zgState = $db->getPar("zgState");
+		if ($zgState != '') {
+			$whe .= " and zgState='$zgState'";
+		}
 		//if($hyIdentity=='0')			
 		//	$whe.=" and hyId='$hyid'";
 
@@ -1182,7 +1186,7 @@ switch ($tag) {
 				$hypic = $hypic[0];
 			} else
 				$hypic = "image/nopic.png";
-			$odlist[] = array("id" => $row["id"], "gsName" => $row["gsName"], "posAdd" => $row["posAdd"], "yhContent" => $row["yhContent"], "hyName" => $row["hyName"], "addTime" => $row["addTime"], "hypic" => $hypic, "count" => $co);
+			$odlist[] = array("id" => $row["id"], "gsName" => $row["gsName"], "posAdd" => $row["posAdd"], "yhContent" => $row["yhContent"], "hyName" => $row["hyName"], "addTime" => $row["addTime"], "hypic" => $hypic, "count" => $co, "zgState" => $row["zgState"], "zgName" => $row["zgName"]);
 		}
 		$getodlist = array("odlist" => $odlist);
 		$resV = json_encode($getodlist);
@@ -1650,6 +1654,27 @@ switch ($tag) {
 		$getcenterarr = array("memarr" => $memarr);
 		$resV = json_encode($getcenterarr);
 		break;
+	case "assign_rectification":
+		$ids = $db->getPar("ids"); // Comma separated IDs
+		$zgUserId = $db->getPar("zgUserId");
+		$zgName = $db->getPar("zgName");
+		$zgAsk = $db->getPar("zgAsk");
+		$zgTime = $db->getPar("zgTime");
+
+		if ($ids != "") {
+			$idArray = explode(",", $ids);
+			foreach ($idArray as $id) {
+				if ($id != "") {
+					$sql = "UPDATE inspect SET zgUserId='$zgUserId', zgName='$zgName', zgAsk='$zgAsk', zgTime='$zgTime', zgState=1 WHERE id='$id'";
+					$db->execut($sql);
+				}
+			}
+			$resV = '{"code":"200","msg":"分配成功"}';
+		} else {
+			$resV = '{"code":"400","msg":"未选择记录"}';
+		}
+		break;
+
 	case "del":
 		$tab = $db->getPar("t");
 		$id = $db->getPar("i");
