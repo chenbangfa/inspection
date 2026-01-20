@@ -168,7 +168,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 			if ($dataType == 'C') {
 				//  Read cell value data
 				foreach($rowData as $rowDatum) {
-					switch($rowDatum{0}) {
+					switch($rowDatum[0]) {
 						case 'C' :
 						case 'X' :
 							$columnIndex = substr($rowDatum,1) - 1;
@@ -257,7 +257,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 			if ($dataType == 'P') {
 				$formatArray = array();
 				foreach($rowData as $rowDatum) {
-					switch($rowDatum{0}) {
+					switch($rowDatum[0]) {
 						case 'P' :	$formatArray['numberformat']['code'] = str_replace($fromFormats,$toFormats,substr($rowDatum,1));
 									break;
 						case 'E' :
@@ -291,7 +291,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 				$hasCalculatedValue = false;
 				$cellData = $cellDataFormula = '';
 				foreach($rowData as $rowDatum) {
-					switch($rowDatum{0}) {
+					switch($rowDatum[0]) {
 						case 'C' :
 						case 'X' :	$column = substr($rowDatum,1);
 									break;
@@ -352,7 +352,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 				$formatStyle = $columnWidth = $styleSettings = '';
 				$styleData = array();
 				foreach($rowData as $rowDatum) {
-					switch($rowDatum{0}) {
+					switch($rowDatum[0]) {
 						case 'C' :
 						case 'X' :	$column = substr($rowDatum,1);
 									break;
@@ -408,7 +408,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 				}
 			} else {
 				foreach($rowData as $rowDatum) {
-					switch($rowDatum{0}) {
+					switch($rowDatum[0]) {
 						case 'C' :
 						case 'X' :	$column = substr($rowDatum,1);
 									break;
