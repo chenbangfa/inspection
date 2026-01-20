@@ -1,11 +1,20 @@
 <?php
 /**
  * 导出巡检点信息到Excel（包含二维码图片）
+ * 使用 PhpSpreadsheet 和 endroid/qr-code 库
  */
+
+// 加载 Composer 自动加载器
+require_once('../vendor/autoload.php');
 require_once('../data/db.php');
-require "../Classes/PHPExcel.php";
-require "../Classes/PHPExcel/Writer/Excel2007.php";
-require "../Classes/PHPExcel/Worksheet/Drawing.php";
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 
 // 获取参数
 $tid = $db->getPar("tid");
@@ -39,98 +48,116 @@ if (!is_dir($qrDir)) {
 }
 
 // 创建Excel
-$objExcel = new \PHPExcel();
-$objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
-$objActSheet = $objExcel->getActiveSheet();
-$objActSheet->setTitle("巡检点列表");
+$spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
+$sheet->setTitle("巡检点列表");
 
 // 设置表头
-$arrHeader = array('序号', '巡检点编号', '巡检点名称', '分类', '巡检周期', '每周期次数', '间隔', '巡检人', '最近巡检', '巡检次数', '二维码');
-$letter = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K');
-$lenth = count($arrHeader);
-for ($i = 0; $i < $lenth; $i++) {
-    $objActSheet->setCellValue("{$letter[$i]}1", $arrHeader[$i]);
+$headers = ['序号', '巡检点编号', '巡检点名称', '分类', '巡检周期', '每周期次数', '间隔', '巡检人', '最近巡检', '巡检次数', '二维码'];
+$columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
+
+foreach ($headers as $i => $header) {
+    $sheet->setCellValue($columns[$i] . '1', $header);
 }
 
 // 设置表头样式
-$objActSheet->getStyle('A1:K1')->getFont()->setBold(true);
-$objActSheet->getStyle('A1:K1')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
-$objActSheet->getStyle('A1:K1')->getFill()->getStartColor()->setRGB('CCCCCC');
+$headerStyle = [
+    'font' => ['bold' => true],
+    'fill' => [
+        'fillType' => Fill::FILL_SOLID,
+        'startColor' => ['rgb' => 'CCCCCC']
+    ],
+    'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER]
+];
+$sheet->getStyle('A1:K1')->applyFromArray($headerStyle);
+
+// QR Writer
+$qrWriter = new PngWriter();
 
 // 填充数据
-$sort = 0;
-foreach ($arr as $k => $v) {
+$rowNum = 2;
+foreach ($arr as $v) {
     $v = $v["BlueInspect"];
-    $k += 2; // 从第二行开始
-    $sort++;
 
-    // 生成二维码图片（使用Google Charts API）
-    $qrData = $v['id']; // 二维码内容为巡检点ID
+    // 生成二维码图片
+    $qrData = strval($v['id']);
     $qrFile = $qrDir . "qr_{$v['id']}.png";
 
     // 如果二维码不存在则生成
     if (!file_exists($qrFile)) {
-        $qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . urlencode($qrData);
-        $qrContent = @file_get_contents($qrUrl);
-        if ($qrContent) {
-            file_put_contents($qrFile, $qrContent);
+        try {
+            $qrCode = QrCode::create($qrData)
+                ->setSize(150)
+                ->setMargin(10);
+            $result = $qrWriter->write($qrCode);
+            $result->saveToFile($qrFile);
+        } catch (Exception $e) {
+            // 如果本地生成失败，使用在线API
+            $qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . urlencode($qrData);
+            $qrContent = @file_get_contents($qrUrl);
+            if ($qrContent) {
+                file_put_contents($qrFile, $qrContent);
+            }
         }
     }
 
     // 填充单元格
-    $objActSheet->setCellValue('A' . $k, $sort);
-    $objActSheet->setCellValue('B' . $k, $v['dropNo']);
-    $objActSheet->setCellValue('C' . $k, $v['dropName']);
-    $objActSheet->setCellValue('D' . $k, $v['dropClass']);
-    $objActSheet->setCellValue('E' . $k, $v['patrolCycle']);
-    $objActSheet->setCellValue('F' . $k, $v['patrolNum']);
-    $objActSheet->setCellValue('G' . $k, $v['patrolDiff']);
-    $objActSheet->setCellValue('H' . $k, $v['hyAppointName']);
-    $objActSheet->setCellValue('I' . $k, $v['inspectTime'] ?? '');
-    $objActSheet->setCellValue('J' . $k, $v['inspectNum'] ?? 0);
+    $sheet->setCellValue('A' . $rowNum, $rowNum - 1);
+    $sheet->setCellValue('B' . $rowNum, $v['dropNo']);
+    $sheet->setCellValue('C' . $rowNum, $v['dropName']);
+    $sheet->setCellValue('D' . $rowNum, $v['dropClass']);
+    $sheet->setCellValue('E' . $rowNum, $v['patrolCycle']);
+    $sheet->setCellValue('F' . $rowNum, $v['patrolNum']);
+    $sheet->setCellValue('G' . $rowNum, $v['patrolDiff']);
+    $sheet->setCellValue('H' . $rowNum, $v['hyAppointName'] ?? '');
+    $sheet->setCellValue('I' . $rowNum, $v['inspectTime'] ?? '');
+    $sheet->setCellValue('J' . $rowNum, $v['inspectNum'] ?? 0);
 
     // 嵌入二维码图片
     if (file_exists($qrFile)) {
-        $objDrawing = new \PHPExcel_Worksheet_Drawing();
-        $objDrawing->setPath($qrFile);
-        $objDrawing->setHeight(80);
-        $objDrawing->setWidth(80);
-        $objDrawing->setCoordinates('K' . $k);
-        $objDrawing->setOffsetX(5);
-        $objDrawing->setOffsetY(5);
-        $objDrawing->setWorksheet($objActSheet);
+        $drawing = new Drawing();
+        $drawing->setPath($qrFile);
+        $drawing->setHeight(60);
+        $drawing->setCoordinates('K' . $rowNum);
+        $drawing->setOffsetX(5);
+        $drawing->setOffsetY(5);
+        $drawing->setWorksheet($sheet);
 
         // 设置行高以容纳二维码
-        $objActSheet->getRowDimension($k)->setRowHeight(70);
+        $sheet->getRowDimension($rowNum)->setRowHeight(50);
     }
+
+    $rowNum++;
 }
 
 // 设置列宽
-$objActSheet->getColumnDimension('A')->setWidth(8);
-$objActSheet->getColumnDimension('B')->setWidth(15);
-$objActSheet->getColumnDimension('C')->setWidth(25);
-$objActSheet->getColumnDimension('D')->setWidth(15);
-$objActSheet->getColumnDimension('E')->setWidth(12);
-$objActSheet->getColumnDimension('F')->setWidth(12);
-$objActSheet->getColumnDimension('G')->setWidth(10);
-$objActSheet->getColumnDimension('H')->setWidth(15);
-$objActSheet->getColumnDimension('I')->setWidth(20);
-$objActSheet->getColumnDimension('J')->setWidth(12);
-$objActSheet->getColumnDimension('K')->setWidth(15);
+$columnWidths = [
+    'A' => 8,
+    'B' => 15,
+    'C' => 25,
+    'D' => 15,
+    'E' => 12,
+    'F' => 12,
+    'G' => 10,
+    'H' => 15,
+    'I' => 20,
+    'J' => 12,
+    'K' => 12
+];
+foreach ($columnWidths as $col => $width) {
+    $sheet->getColumnDimension($col)->setWidth($width);
+}
 
 // 输出文件
-$outfile = "巡检点列表_" . date("YmdHis") . ".xlsx";
+$filename = "巡检点列表_" . date("YmdHis") . ".xlsx";
 
 // 清空输出缓冲区
 ob_end_clean();
 
 // 设置下载头
-header("Content-Type: application/force-download");
-header("Content-Type: application/octet-stream");
-header("Content-Type: application/download");
-header('Content-Disposition: attachment; filename="' . $outfile . '"');
-header("Content-Transfer-Encoding: binary");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-header("Pragma: no-cache");
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Cache-Control: max-age=0');
 
-$objWriter->save('php://output');
+$writer = new Xlsx($spreadsheet);
+$writer->save('php://output');
