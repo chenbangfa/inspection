@@ -3,3 +3,4 @@ weichat/
 .idea/
 .vscode/
 *.log
+servers/vendor/

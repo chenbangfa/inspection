@@ -1,125 +1,109 @@
-<?php require_once('../data/db.php');
-require "../Classes/PHPExcel.php";
-require "../Classes/PHPExcel/Writer/Excel2007.php";
-require "../Classes/PHPExcel/Worksheet/Drawing.php";
+<?php
+/**
+ * 导出日常巡检记录到Excel（包含图片）
+ * 使用 PhpSpreadsheet 库
+ */
+require_once('../vendor/autoload.php');
+require_once('../data/db.php');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-		$tid = $db->getPar("tid");
-		$hyid = $db->getPar("hyid");
-		$time = $db->getPar("time");
-		$times = $db->getPar("times");
-		$zysearch = $db->getPar("zysearch");
-		$together = $db->getPar("together");
-		
-		$whe="tId='$tid'";
-		if($time!=''&&$times!='')
-			$whe.=" and addTime>'$time' and addTime<'$times'";
-		if($zysearch!='')			
-			$whe.=" and FIND_IN_SET(yhSpeciality,'$zysearch')";
-		if($together!='')			
-			$whe.=" and FIND_IN_SET(hyName,'$together')";	
-			
+// 获取参数
+$tid = $db->getPar("tid");
+$hyid = $db->getPar("hyid");
+$time = $db->getPar("time");
+$times = $db->getPar("times");
+$zysearch = $db->getPar("zysearch");
+$together = $db->getPar("together");
 
-$arr=$db->getAll("inspect","$whe","addTime desc");
+$whe = "tId='$tid'";
+if ($time != '' && $times != '')
+    $whe .= " and addTime>'$time' and addTime<'$times'";
+if ($zysearch != '')
+    $whe .= " and FIND_IN_SET(yhSpeciality,'$zysearch')";
+if ($together != '')
+    $whe .= " and FIND_IN_SET(hyName,'$together')";
 
+$arr = $db->getAll("inspect", "$whe", "addTime desc");
 
+// 创建Excel
+$spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
+$sheet->setTitle("日常巡检记录");
 
-$objExcel = new \PHPExcel();
-$objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
-$objActSheet = $objExcel->getActiveSheet();
-$key = ord("A");
-$letter = explode(',', "A,B,C,D,E,F,G,H,I,J,K,L,M");
-//设置表头
-$arrHeader = array('序号', '公司名称', '隐患地址','隐患部位','隐患内容' ,'隐患专业','检查时间','检查组名称','检查人','随检人员','整治要求','整治时限','图片');
-$lenth = count($arrHeader);
-for ($i = 0; $i < $lenth; $i++)
-{
-    $objActSheet->setCellValue("$letter[$i]1", "$arrHeader[$i]");
-};
+// 设置表头
+$headers = ['序号', '公司名称', '隐患地址', '隐患部位', '隐患内容', '隐患专业', '检查时间', '检查组名称', '检查人', '随检人员', '整治要求', '整治时限', '图片'];
+$columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
 
-//填充表格信息
-$sort=0;
-foreach ($arr as $k => $v)
-{
-	$v = $v["Inspect"];
-    //从第二行开始
-    $k += 2;
-	$sort++;
-	
-	$yhPhoto="";
-	if($v["yhPhoto"]!="")
-	{
-		$yhPhoto =substr($v["yhPhoto"], 0, -1);
-		$yhPhoto = explode('|',$yhPhoto);
-	}
-    //表格内容
-    $objActSheet->setCellValue('A' . $k, $sort);
-    $objActSheet->setCellValue('B' . $k, $v['gsName']);
-    $objActSheet->setCellValue('C' . $k, $v['yhAdd']);
-    $objActSheet->setCellValue('D' . $k, $v['yhPosition']);
-    $objActSheet->setCellValue('E' . $k, $v['yhContent']);
-    $objActSheet->setCellValue('F' . $k, $v['yhSpeciality']);
-    $objActSheet->setCellValue('G' . $k, $v['addTime']);
-    $objActSheet->setCellValue('H' . $k, $v['tName']);
-    $objActSheet->setCellValue('I' . $k, $v['hyName']);
-    $objActSheet->setCellValue('J' . $k, $v['together']);
-    $objActSheet->setCellValue('K' . $k, $v['zgAsk']);
-    $objActSheet->setCellValue('L' . $k, $v['zgTime']);
-	
-	if ($yhPhoto)
-	{
-        foreach($yhPhoto as $k1=>$v1)
-		{
-			
-			 //实例化图片操作类
-            $objDrawing  = new \PHPExcel_Worksheet_Drawing();
-            //设置图片地址
-            $objDrawing -> setPath(ROOT.$v1);
-            //设置图片高
-            $objDrawing ->setHeight(80);
-            //设置图片宽
-            $objDrawing ->setWidth(80);
-            //设置图片存放在表格的位置
-            $objDrawing ->setCoordinates('M' . $k);
+foreach ($headers as $i => $header) {
+    $sheet->setCellValue($columns[$i] . '1', $header);
+}
 
-            //设置X方向偏移量每一张图片的后面追加一个偏移量
-            $objDrawing ->setOffsetX(80*($k1+1));
-            //设置Y方向偏移量
-            $objDrawing ->setOffsetY(0);
-            $objDrawing ->setWorksheet($objActSheet);
-            //设置表格的高度
-            $objActSheet->getRowDimension($k)->setRowHeight(100);
+// 设置表头样式
+$sheet->getStyle('A1:M1')->getFont()->setBold(true);
+
+// 填充数据
+$rowNum = 2;
+foreach ($arr as $v) {
+    $v = $v["Inspect"];
+
+    // 处理图片
+    $yhPhoto = "";
+    if (!empty($v["yhPhoto"])) {
+        $yhPhoto = substr($v["yhPhoto"], 0, -1);
+        $yhPhoto = explode('|', $yhPhoto);
+    }
+
+    // 填充单元格
+    $sheet->setCellValue('A' . $rowNum, $rowNum - 1);
+    $sheet->setCellValue('B' . $rowNum, $v['gsName']);
+    $sheet->setCellValue('C' . $rowNum, $v['yhAdd']);
+    $sheet->setCellValue('D' . $rowNum, $v['yhPosition']);
+    $sheet->setCellValue('E' . $rowNum, $v['yhContent']);
+    $sheet->setCellValue('F' . $rowNum, $v['yhSpeciality']);
+    $sheet->setCellValue('G' . $rowNum, $v['addTime']);
+    $sheet->setCellValue('H' . $rowNum, $v['tName']);
+    $sheet->setCellValue('I' . $rowNum, $v['hyName']);
+    $sheet->setCellValue('J' . $rowNum, $v['together']);
+    $sheet->setCellValue('K' . $rowNum, $v['zgAsk']);
+    $sheet->setCellValue('L' . $rowNum, $v['zgTime']);
+
+    // 嵌入图片
+    if ($yhPhoto) {
+        foreach ($yhPhoto as $k1 => $v1) {
+            $imgPath = ROOT . $v1;
+            if (file_exists($imgPath)) {
+                $drawing = new Drawing();
+                $drawing->setPath($imgPath);
+                $drawing->setHeight(80);
+                $drawing->setWidth(80);
+                $drawing->setCoordinates('M' . $rowNum);
+                $drawing->setOffsetX(80 * ($k1 + 1));
+                $drawing->setOffsetY(0);
+                $drawing->setWorksheet($sheet);
+                $sheet->getRowDimension($rowNum)->setRowHeight(70);
+            }
         }
     }
 
-    $width = array(20, 20, 15, 10, 10, 30, 10, 15);
-    //设置表格的宽度
-    $objActSheet->getColumnDimension('A')->setWidth(10);
-    $objActSheet->getColumnDimension('B')->setWidth($width[1]);
-    $objActSheet->getColumnDimension('C')->setWidth($width[0]);
-    $objActSheet->getColumnDimension('D')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('E')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('F')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('G')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('H')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('I')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('J')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('K')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('L')->setWidth($width[5]);
-    $objActSheet->getColumnDimension('M')->setWidth(80);
-
+    $rowNum++;
 }
-    $outfile = "日常巡检记录表" . time() . ".xlsx";
-   //清空输出缓冲区
-    ob_end_clean();
-    //告诉浏览器强制下载
-    header("Content-Type: application/force-download");
-    //二进制文件类型
-    header("Content-Type: application/octet-stream");
-    header("Content-Type: application/download");
-    //设置表名
-    header('Content-Disposition:inline;filename="' . $outfile . '"');
-    header("Content-Transfer-Encoding: binary");
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("Pragma: no-cache");
-    $objWriter->save('php://output');
+
+// 设置列宽
+$widths = ['A' => 10, 'B' => 20, 'C' => 20, 'D' => 15, 'E' => 30, 'F' => 15, 'G' => 20, 'H' => 15, 'I' => 10, 'J' => 15, 'K' => 20, 'L' => 15, 'M' => 80];
+foreach ($widths as $col => $width) {
+    $sheet->getColumnDimension($col)->setWidth($width);
+}
+
+// 输出文件
+$filename = "日常巡检记录表_" . date("YmdHis") . ".xlsx";
+ob_end_clean();
+
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Cache-Control: max-age=0');
+
+$writer = new Xlsx($spreadsheet);
+$writer->save('php://output');

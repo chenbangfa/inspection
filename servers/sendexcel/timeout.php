@@ -1,88 +1,82 @@
-<?php require_once('../data/db.php');
-require "../Classes/PHPExcel.php";
-require "../Classes/PHPExcel/Writer/Excel2007.php";
-require "../Classes/PHPExcel/Worksheet/Drawing.php";
+<?php
+/**
+ * 导出超时未巡检记录到Excel
+ * 使用 PhpSpreadsheet 库
+ */
+require_once('../vendor/autoload.php');
+require_once('../data/db.php');
 
-		$tid = $db->getPar("tid");
-		$hyid = $db->getPar("hyid");
-		
-		$time = $db->getPar("time");
-		$times = $db->getPar("times");
-		$zysearch = $db->getPar("zysearch");
-		$together = $db->getPar("together");
-		
-		$whe="tId='$tid'";
-		if($time!=''&&$times!='')
-			$whe.=" and startTime>='$time' and endTime<='$times'";
-		if($zysearch!='')			
-			$whe.=" and FIND_IN_SET(dropClass,'$zysearch')";
-		if($together!='')			
-			$whe.=" and FIND_IN_SET(hyAppointName,'$together')";
-			
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$arr=$db->getAll("noCheck","$whe","addTime desc");
+// 获取参数
+$tid = $db->getPar("tid");
+$hyid = $db->getPar("hyid");
+$time = $db->getPar("time");
+$times = $db->getPar("times");
+$zysearch = $db->getPar("zysearch");
+$together = $db->getPar("together");
 
-$objExcel = new \PHPExcel();
-$objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
-$objActSheet = $objExcel->getActiveSheet();
-$key = ord("A");
-$letter = explode(',', "A,B,C,D,E,F,G,H,I,J,K");
-//设置表头
-$arrHeader = array('序号', '巡检点编号','巡检点分类','巡检点名称','巡检点介绍','巡检人' ,'未检次数','未检开始时间','未检结束时间','最后巡检时间','最后巡检人');
-$lenth = count($arrHeader);
-for ($i = 0; $i < $lenth; $i++)
-{
-    $objActSheet->setCellValue("$letter[$i]1", "$arrHeader[$i]");
-};
+$whe = "tId='$tid'";
+if ($time != '' && $times != '')
+    $whe .= " and startTime>='$time' and endTime<='$times'";
+if ($zysearch != '')
+    $whe .= " and FIND_IN_SET(dropClass,'$zysearch')";
+if ($together != '')
+    $whe .= " and FIND_IN_SET(hyAppointName,'$together')";
 
-//填充表格信息
-$sort=0;
-foreach ($arr as $k => $v)
-{
-	$v = $v["NoCheck"];
-	
-    //从第二行开始
-    $k += 2;
-	$sort++;
-	
-    //表格内容
-    $objActSheet->setCellValue('A' . $k, $sort);
-    $objActSheet->setCellValue('B' . $k, $v['dropNo']);
-    $objActSheet->setCellValue('C' . $k, $v['dropClass']);
-    $objActSheet->setCellValue('D' . $k, $v['dropName']);
-    $objActSheet->setCellValue('E' . $k, $v['dropInfo']);
-    $objActSheet->setCellValue('F' . $k, $v['hyAppointName']);
-    $objActSheet->setCellValue('G' . $k, $v['inspectNum']);
-    $objActSheet->setCellValue('H' . $k, $v['startTime']);
-    $objActSheet->setCellValue('I' . $k, $v['endTime']);
-    $objActSheet->setCellValue('J' . $k, $v['inspectTime']);
-    $objActSheet->setCellValue('K' . $k, $v['inspectName']);
-	
-    //设置表格的宽度
-    $objActSheet->getColumnDimension('A')->setWidth(10);
-    $objActSheet->getColumnDimension('B')->setWidth(10);
-    $objActSheet->getColumnDimension('C')->setWidth(10);
-    $objActSheet->getColumnDimension('D')->setWidth(20);
-    $objActSheet->getColumnDimension('E')->setWidth(20);
-    $objActSheet->getColumnDimension('F')->setWidth(10);
-    $objActSheet->getColumnDimension('G')->setWidth(15);
-    $objActSheet->getColumnDimension('H')->setWidth(15);
-    $objActSheet->getColumnDimension('I')->setWidth(15);
-    $objActSheet->getColumnDimension('J')->setWidth(15);
-    $objActSheet->getColumnDimension('K')->setWidth(10);
+$arr = $db->getAll("noCheck", "$whe", "addTime desc");
 
+// 创建Excel
+$spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
+$sheet->setTitle("超时未巡检记录");
+
+// 设置表头
+$headers = ['序号', '巡检点编号', '巡检点分类', '巡检点名称', '巡检点介绍', '巡检人', '未检次数', '未检开始时间', '未检结束时间', '最后巡检时间', '最后巡检人'];
+$columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
+
+foreach ($headers as $i => $header) {
+    $sheet->setCellValue($columns[$i] . '1', $header);
 }
-    $outfile = "超时未巡检记录表" . time() . ".xlsx";
-   //清空输出缓冲区
-    ob_end_clean();
-    //告诉浏览器强制下载
-    header("Content-Type: application/force-download");
-    //二进制文件类型
-    header("Content-Type: application/octet-stream");
-    header("Content-Type: application/download");
-    //设置表名
-    header('Content-Disposition:inline;filename="' . $outfile . '"');
-    header("Content-Transfer-Encoding: binary");
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("Pragma: no-cache");
-    $objWriter->save('php://output'); 
+
+// 设置表头样式
+$sheet->getStyle('A1:K1')->getFont()->setBold(true);
+
+// 填充数据
+$rowNum = 2;
+foreach ($arr as $v) {
+    $v = $v["NoCheck"];
+
+    // 填充单元格
+    $sheet->setCellValue('A' . $rowNum, $rowNum - 1);
+    $sheet->setCellValue('B' . $rowNum, $v['dropNo']);
+    $sheet->setCellValue('C' . $rowNum, $v['dropClass']);
+    $sheet->setCellValue('D' . $rowNum, $v['dropName']);
+    $sheet->setCellValue('E' . $rowNum, $v['dropInfo']);
+    $sheet->setCellValue('F' . $rowNum, $v['hyAppointName']);
+    $sheet->setCellValue('G' . $rowNum, $v['inspectNum']);
+    $sheet->setCellValue('H' . $rowNum, $v['startTime']);
+    $sheet->setCellValue('I' . $rowNum, $v['endTime']);
+    $sheet->setCellValue('J' . $rowNum, $v['inspectTime']);
+    $sheet->setCellValue('K' . $rowNum, $v['inspectName']);
+
+    $rowNum++;
+}
+
+// 设置列宽
+$widths = ['A' => 10, 'B' => 15, 'C' => 15, 'D' => 20, 'E' => 20, 'F' => 12, 'G' => 12, 'H' => 18, 'I' => 18, 'J' => 18, 'K' => 12];
+foreach ($widths as $col => $width) {
+    $sheet->getColumnDimension($col)->setWidth($width);
+}
+
+// 输出文件
+$filename = "超时未巡检记录表_" . date("YmdHis") . ".xlsx";
+ob_end_clean();
+
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Cache-Control: max-age=0');
+
+$writer = new Xlsx($spreadsheet);
+$writer->save('php://output');
