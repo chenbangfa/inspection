@@ -1,6 +1,6 @@
 <!-- pages/mytask/mytask.wxml -->
 <view class='view-page'>
-  <navbar page-name="{{navbarData.title}}" show-nav="{{navbarData.showCapsule}}"></navbar>
+  <nav-bar navbar-data='{{navbarData}}'></nav-bar>
   
   <view class='page-content' style='height:100%;position:relative'>
     

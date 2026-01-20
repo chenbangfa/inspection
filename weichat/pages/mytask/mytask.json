@@ -1,5 +1,8 @@
 {
-    "usingComponents": {},
+    "usingComponents": {
+        "nav-bar": "/nvabar/nvabar"
+    },
     "navigationBarTitleText": "我的任务",
-    "navigationStyle": "custom"
+    "navigationStyle": "custom",
+    "enablePullDownRefresh": true
 }
