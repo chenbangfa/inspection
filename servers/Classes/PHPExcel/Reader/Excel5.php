@@ -2334,7 +2334,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2350,7 +2350,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2366,7 +2366,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2382,7 +2382,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2398,7 +2398,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2414,7 +2414,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2430,7 +2430,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2446,7 +2446,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 						$xclrValue = substr($extData, 4, 4); // color value (value based on color type)
 
 						if ($xclfType == 2) {
-							$rgb = sprintf('%02X%02X%02X', ord($xclrValue{0}), ord($xclrValue{1}), ord($xclrValue{2}));
+							$rgb = sprintf('%02X%02X%02X', ord($xclrValue[0]), ord($xclrValue[1]), ord($xclrValue[2]));
 
 							// modify the relevant style property
 							if ( isset($this->_mapCellXfIndex[$ixfe]) ) {
@@ -2488,7 +2488,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 			if ($isBuiltIn) {
 				// offset: 2; size: 1; identifier for built-in style
-				$builtInId = ord($recordData{2});
+				$builtInId = ord($recordData[2]);
 
 				switch ($builtInId) {
 				case 0x00:
@@ -2555,7 +2555,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		$this->_pos += 4 + $length;
 
 		// offset: 4; size: 1; sheet state
-		switch (ord($recordData{4})) {
+		switch (ord($recordData[4])) {
 			case 0x00: $sheetState = PHPExcel_Worksheet::SHEETSTATE_VISIBLE;    break;
 			case 0x01: $sheetState = PHPExcel_Worksheet::SHEETSTATE_HIDDEN;     break;
 			case 0x02: $sheetState = PHPExcel_Worksheet::SHEETSTATE_VERYHIDDEN; break;
@@ -2563,7 +2563,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		}
 
 		// offset: 5; size: 1; sheet type
-		$sheetType = ord($recordData{5});
+		$sheetType = ord($recordData[5]);
 
 		// offset: 6; size: var; sheet name
 		if ($this->_version == self::XLS_BIFF8) {
@@ -2742,7 +2742,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 			// offset: 2; size: 1; keyboard shortcut
 
 			// offset: 3; size: 1; length of the name (character count)
-			$nlen = ord($recordData{3});
+			$nlen = ord($recordData[3]);
 
 			// offset: 4; size: 2; size of the formula data (it can happen that this is zero)
 			// note: there can also be additional data, this is not included in $flen
@@ -3818,7 +3818,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		// We can apparently not rely on $isPartOfSharedFormula. Even when $isPartOfSharedFormula = true
 		// the formula data may be ordinary formula data, therefore we need to check
 		// explicitly for the tExp token (0x01)
-		$isPartOfSharedFormula = $isPartOfSharedFormula && ord($formulaStructure{2}) == 0x01;
+		$isPartOfSharedFormula = $isPartOfSharedFormula && ord($formulaStructure[2]) == 0x01;
 
 		if ($isPartOfSharedFormula) {
 			// part of shared formula which means there will be a formula with a tExp token and nothing else
@@ -6094,10 +6094,10 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		$lr = self::_GetInt2d($subData, 2) + 1;
 
 		// offset: 4; size: 1; index to first column
-		$fc = ord($subData{4});
+		$fc = ord($subData[4]);
 
 		// offset: 5; size: 1; index to last column
-		$lc = ord($subData{5});
+		$lc = ord($subData[5]);
 
 		// check values
 		if ($fr > $lr || $fc > $lc) {
@@ -6504,13 +6504,13 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 	private static function _readRGB($rgb)
 	{
 		// offset: 0; size 1; Red component
-		$r = ord($rgb{0});
+		$r = ord($rgb[0]);
 
 		// offset: 1; size: 1; Green component
-		$g = ord($rgb{1});
+		$g = ord($rgb[1]);
 
 		// offset: 2; size: 1; Blue component
-		$b = ord($rgb{2});
+		$b = ord($rgb[2]);
 
 		// HEX notation, e.g. 'FF00FC'
 		$rgb = sprintf('%02X%02X%02X', $r, $g, $b);
