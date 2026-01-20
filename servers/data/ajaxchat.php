@@ -1628,7 +1628,6 @@ switch ($tag) {
 		$hyid = $db->getPar("hyid");
 		$memarr = array();
 		$memres = $db->getOne("hyUser", "id='$hyid'");
-		$memres = $db->getOne("hyUser", "id='$hyid'");
 		if (!empty($memres) && isset($memres["HyUser"])) {
 			$row = $memres["HyUser"];
 			$tid = $row["tId"];

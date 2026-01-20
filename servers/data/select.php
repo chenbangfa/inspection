@@ -115,11 +115,19 @@ class Select
 	//写入日志
 	function writeMsg($msg = "")
 	{
+		$logDir = dirname(LOGURL);
+		if (!is_dir($logDir)) {
+			mkdir($logDir, 0777, true);
+		}
 		file_put_contents(LOGURL, "[" . date("Y-m-d h:i:s") . "]\r\n" . $msg . "\r\n\r\n", FILE_APPEND);
 	}
 	//写入内容
 	function writeInfo($msg = "")
 	{
+		$logDir = dirname(LOGINFO);
+		if (!is_dir($logDir)) {
+			mkdir($logDir, 0777, true);
+		}
 		file_put_contents(LOGINFO, "$msg");
 	}
 	//读取内容

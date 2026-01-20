@@ -883,6 +883,7 @@ switch($tag)
 		$hyTel = $db->getPar("hyTel");
 		$hyPwd = $db->getPar("hyPwd");
 		$myres = $db->getOne("hyUser","hyTel='$hyTel' and hyPwd='".md5($hyPwd)."'","logTime desc");
+		
 		if(count($myres)>0)
 		{
 			$adm = $myres["HyUser"];
