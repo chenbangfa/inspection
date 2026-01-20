@@ -1,0 +1,136 @@
+<!-- pages/mytask/mytask.wxml -->
+<view class='view-page'>
+  <navbar page-name="{{navbarData.title}}" show-nav="{{navbarData.showCapsule}}"></navbar>
+  
+  <view class='page-content' style='height:100%;position:relative'>
+    
+    <!-- Top Header Bar (Simplified for My Task) -->
+    <view class="header-bar" style="top:{{height}}px;">
+       <view class="team-selector">
+          <text class="team-name">我的整改任务</text>
+       </view>
+       
+       <view class="header-actions">
+           <!-- Filter Trigger -->
+           <view class="action-btn" bindtap="openFilterDrawer">
+               <image src="../../image/guolv.png" mode="aspectFit"></image>
+               <text>筛选</text>
+           </view>
+       </view>
+    </view>
+
+    <!-- Active Filter Chips -->
+    <view class="filter-chips-container" style="top:{{height + 44}}px;" wx:if="{{sdate || zgStateName}}">
+        <scroll-view scroll-x="true" class="chips-scroll" enable-flex="true">
+            <view class="chip" wx:if="{{sdate}}">
+                <text>{{tempSdate}} 至 {{tempEdate}}</text>
+                <view class="chip-close" bindtap="closedate">×</view>
+            </view>
+            
+            <view class="chip" wx:if="{{zgStateName}}">
+                <text>{{zgStateName}}</text>
+                <view class="chip-close" bindtap="closeZgState">×</view>
+            </view>
+        </scroll-view>
+    </view>
+
+    <!-- List Content -->
+    <view class="list-container" style="padding-top: {{ (sdate || zgStateName) ? (height + 44 + 50) : (height + 44) }}px;">
+        <block wx:for="{{odlist}}" wx:key="id" wx:for-index="pageIndex">
+            <view class='item-container' wx:for="{{item}}" wx:key="id" wx:for-item="sub" bindtap="itemclick" data-id="{{sub.id}}">
+                <view class="item-card">
+                    <view class="card-header">
+                        <view class="header-left">
+                            <text class="serial-num">#{{sub.id}}</text>
+                            <text class="timestamp">{{sub.create_time}}</text>
+                        </view>
+                        <!-- Status Badge -->
+                        <view class="status-badge status-{{sub.zgState}}">
+                            <text wx:if="{{sub.zgState == 0}}">待整改</text>
+                            <text wx:elif="{{sub.zgState == 1}}">整改中</text>
+                            <text wx:elif="{{sub.zgState == 2}}">已整改</text>
+                        </view>
+                    </view>
+
+                    <view class="card-body">
+                         <view class="info-row">
+                            <text class="label">检查点:</text>
+                            <text class="value">{{sub.address}}</text>
+                        </view>
+                        <view class="info-row">
+                            <text class="label">隐患类型:</text>
+                            <text class="value">{{sub.dangerType}}</text>
+                        </view>
+                        <view class="info-row highlight-row" wx:if="{{sub.zgInfo}}">
+                            <text class="label">整改要求:</text>
+                            <text class="value">{{sub.zgAsk}}</text>
+                        </view>
+                        <view class="info-row highlight-row" wx:if="{{sub.zgTime}}">
+                            <text class="label">截止时间:</text>
+                            <text class="value">{{sub.zgTime}}</text>
+                        </view>
+                    </view>
+                    
+                    <view class="card-footer">
+                        <view class="inspector-info">
+                            <text>发布人: {{sub.hyName}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+
+        <!-- Empty State -->
+        <view wx:if="{{isdata}}" class="empty-state">
+            <image src="../../image/nodata.png" mode="widthFix"></image>
+            <text>暂无任务</text>
+        </view>
+    </view>
+
+    <!-- Filter Drawer (Simplified) -->
+    <view class="drawer-mask" wx:if="{{showDrawer}}" bindtap="closeFilterDrawer"></view>
+    <view class="drawer {{showDrawer ? 'drawer-open' : ''}}" style="top:0; height: 100%;">
+        <view class="drawer-content" style="padding-top: {{height}}px;">
+            <view class="drawer-header">筛选</view>
+            
+            <scroll-view scroll-y="true" style="height: calc(100% - 120rpx);">
+                <!-- Date Filter -->
+                <view class="filter-section">
+                    <view class="section-title">日期范围</view>
+                    <view class="tag-group">
+                         <view class="tag {{dateLimit == 'today' ? 'active' : ''}}" bindtap="selectDateLimit" data-type="today">今日</view>
+                         <view class="tag {{dateLimit == 'week' ? 'active' : ''}}" bindtap="selectDateLimit" data-type="week">本周</view>
+                         <view class="tag {{dateLimit == 'month' ? 'active' : ''}}" bindtap="selectDateLimit" data-type="month">本月</view>
+                    </view>
+                    <view class="date-picker-row">
+                         <picker mode="date" value="{{tempSdate}}" bindchange="bindTempDateChange" data-type="start">
+                             <view class="picker-box {{tempSdate ? 'filled' : ''}}">{{tempSdate || '开始日期'}}</view>
+                         </picker>
+                         <text class="separator">-</text>
+                         <picker mode="date" value="{{tempEdate}}" bindchange="bindTempDateChange" data-type="end">
+                             <view class="picker-box {{tempEdate ? 'filled' : ''}}">{{tempEdate || '结束日期'}}</view>
+                         </picker>
+                    </view>
+                </view>
+
+                <!-- Status Filter -->
+                <view class="filter-section">
+                    <view class="section-title">任务状态</view>
+                    <view class="tag-group">
+                        <view class="tag {{tempZgIndex == 0 ? 'active' : ''}}" bindtap="selectTempZgState" data-index="0">全部</view>
+                        <view class="tag {{tempZgIndex == 1 ? 'active' : ''}}" bindtap="selectTempZgState" data-index="1">待整改</view>
+                        <view class="tag {{tempZgIndex == 2 ? 'active' : ''}}" bindtap="selectTempZgState" data-index="2">整改中</view>
+                        <view class="tag {{tempZgIndex == 3 ? 'active' : ''}}" bindtap="selectTempZgState" data-index="3">已整改</view>
+                    </view>
+                </view>
+            </scroll-view>
+
+            <view class="drawer-footer">
+                <view class="btn reset" bindtap="resetFilters">重置</view>
+                <view class="btn apply" bindtap="applyFilters">确定</view>
+            </view>
+        </view>
+    </view>
+
+  </view>
+</view>

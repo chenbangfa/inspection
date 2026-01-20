@@ -1,93 +1,129 @@
 <nav-bar navbar-data='{{navbarData}}'></nav-bar>
 
-<view wx:for="{{dtinfo}}" wx:key="id" style="margin-top:{{height}}px;">
-<view style="width: 94%; margin-left:2%;  float: left; padding:20px 0; font-size: 18px; color: #111; font-weight: bold; line-height: 50px;">
-<image src='https://xj.tajian.cc/servers/image/nopic.png' mode="aspectFill" style="width: 50px; height: 50px; float: left;"></image>
-<view style="float: left; margin-left: 10px;">{{item.gsName}} <span class="arrow"></span></view>
-<span class="vspan">{{item.zgState}}</span>
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+
+<view wx:for="{{dtinfo}}" wx:key="id" style="margin-top:{{height+10}}px; padding-bottom: 80px;">
+  
+  <!-- Basic Info Card -->
+  <view class="card">
+    <view class="card-header">
+       <image src='https://xj.tajian.cc/image/nopic.png' mode="aspectFill" class="avatar"></image>
+       <view class="company-name">{{item.gsName}}</view>
+       <view class="status-badge status-{{item.State}}">{{item.zgState}}</view>
+    </view>
+    
+    <view class="card-row">
+      <view class="label">巡检时间</view>
+      <view class="value">{{item.addTime}}</view>
+    </view>
+    <view class="card-row">
+      <view class="label">巡检定位</view>
+      <view class="value">{{item.posAdd}}</view>
+    </view>
+    <view class="card-row">
+      <view class="label">巡检人员</view>
+      <view class="value">{{item.hyname}}</view>
+    </view>
+    <view class="card-row" wx:if="{{item.together!=''}}">
+      <view class="label">随检人员</view>
+      <view class="value">{{item.together}}</view>
+    </view>
+  </view>
+
+  <!-- Hazard Detail Card -->
+  <view class="card">
+    <view class="card-row">
+      <view class="label">隐患位置</view>
+      <view class="value">{{item.yhAdd}}</view>
+    </view>
+    <view class="card-row">
+      <view class="label">隐患部位</view>
+      <view class="value">{{item.yhPosition}}</view>
+    </view>
+    <view class="card-row">
+      <view class="label">隐患分类</view>
+      <view class="value">{{item.yhSpeciality}}</view>
+    </view>
+    <view class="section-title">隐患内容</view>
+    <view class="content-text">{{item.yhContent}}</view>
+    
+    <view class="section-title">隐患照片</view>
+    <view class="photo-grid">
+      <block wx:for="{{item.hypic}}" wx:for-item="pic" wx:key="*this">
+        <image src="https://xj.tajian.cc/{{pic}}" data-imgurl="{{pic}}" bindtap="showcode" class="grid-photo" mode="aspectFill"></image>
+      </block>
+    </view>
+  </view>
+
+  <!-- Rectification Requirement Card -->
+  <view class="card">
+    <view class="card-row">
+       <view class="label">整改要求</view>
+       <view class="value">{{item.zgAsk || '未设定'}}</view>
+    </view>
+    <view class="card-row">
+       <view class="label">整改期限</view>
+       <view class="value">{{item.zgTime || '未设定'}}</view>
+    </view>
+    <!-- Assignment Button (Only show if not completed and current user has permission) -->
+    <button wx:if="{{item.State == '0'}}" type="primary" bindtap="showAssignModal" style="margin-top: 15px; width: 100%;">分配整改任务</button>
+  </view>
+
+  <!-- Rectification Info Card (If Assigned) -->
+  <view class="card" wx:if="{{item.zgName}}">
+      <view class="section-title">整改情况</view>
+      <view class="card-row">
+        <view class="label">整改人</view>
+        <view class="value">{{item.zgName}}</view>
+      </view>
+       <view class="card-row">
+        <view class="label">整改备注</view>
+        <view class="value">{{item.zgInfo || '无'}}</view>
+      </view>
+      
+      <view class="section-title" wx:if="{{item.zgPhoto}}">整改照片</view>
+      <view class="photo-grid" wx:if="{{item.zgPhoto}}">
+        <image src="https://xj.tajian.cc/{{item.zgPhoto}}" data-imgurl="{{item.zgPhoto}}" bindtap="showcode" class="grid-photo" mode="aspectFill"></image>
+      </view>
+  </view>
+
 </view>
 
-<view style="width:98%; margin-left:1%;float: left; background-color: #fff; border-radius:6px;">
 
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:15px 0; color: #666;">
-<span>巡检时间</span>
-<span style="float: right; color: #333;">{{item.addTime}}</span>
-</view>
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:15px 0; color: #666;">
-<span>巡检定位</span>
-<span style="float: right; color: #333;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp:1;-webkit-box-orient: vertical;text-overflow:ellipsis;width: 75%; text-align: right;">{{item.posAdd}}</span>
-</view>
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:15px 0; color: #666;">
-<span>巡检人员</span>
-<span style="float: right; color: #333; ">{{item.hyname}}</span>
-</view>
-<view style="width:96%; margin-left:2%; padding:15px 0; color: #666;" wx:if="{{item.together!=''}}">
-<span>随检人员</span>
-<span style="float: right; color: #333; ">{{item.together}}</span>
-</view>
+<!-- Image Preview Modal -->
+<view class="commodity_attr_box" wx:if="{{showcode}}" style="top:0; height: 100%; background: rgba(0,0,0,0.9); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <image src="https://xj.tajian.cc/{{tCode}}" style="width:100%;" mode="widthFix"/>
+    <button type="default" bindtap="hidecode" style="margin-top: 20px; width: 100px;">关闭</button>
 </view>
 
-<view style="width:98%; margin-left:1%;float: left; background-color: #fff; border-radius:6px; margin-top: 10px;">
 
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:15px 0; color: #666;">
-<span>隐患位置</span>
-<span style="float: right; color: #333;">{{item.yhAdd}}</span>
-</view>
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:15px 0; color: #666;">
-<span>隐患部位</span>
-<span style="float: right; color: #333; ">{{item.yhPosition}}</span>
-</view>
-<view style="width:96%; margin-left:2%; padding:15px 0; color: #666;">
-<span>隐患分类</span>
-<span style="float: right; color: #333; ">{{item.yhSpeciality}}</span>
-</view>
-</view>
-
-<view style="width:98%; margin-left:1%;float: left; background-color: #fff; border-radius:6px; margin-top: 10px;">
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:10px 0; color: #666;">
-<span style="color: #666; font-weight: bold;">隐患内容</span>
-</view>
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:10px 0; color: #666;">
-<span style="color: #333; ">{{item.yhContent}}</span>
-</view>
-</view>
-
-<view style="width:98%; margin-left:1%;float: left; background-color: #fff; border-radius:6px; margin-top: 10px;">
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:10px 0; color: #666;">
-<span style="color: #666; font-weight: bold;">隐患照片</span>
-</view>
-<view style="width:96%; margin-left:2%;  border-bottom: 1rpx solid #e9e9e9; padding:10px 0; color: #666;">
-<block wx:for="{{item.hypic}}">
-  <image src="https://xj.tajian.cc/servers/{{item}}" data-imgurl="{{item}}" bindtap="showcode" style="width:23%; border-radius: 3px; margin-right: 2%;" mode="widthFix"></image>
-</block>
-</view>
-</view>
-
-<view style="width:98%; margin-left:1%;float: left; background-color: #fff; border-radius:6px; margin-top: 10px;">
-<view class="vlist">
-  <span  class="vtit">整治要求</span>
-  <view  class="vcont">
-  <textarea placeholder="请输入整治要求" bindinput="inputWacth" data-input="zgAsk" style="width: 100%; height: 60px;" value="{{item.zgAsk}}"></textarea>
-  </view><font style="color: red;">*</font>
-</view>
-
-<view class="vlist">
-  <span  class="vtit">整治时限</span>
-  <view class="vcont"><input placeholder="请选择整治时限" bindinput="inputWacth" data-input="zgTime" value="{{item.zgTime}}"/></view>
-  <font style="color: red;">*</font>
-</view>
-</view>
-
-<view style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%; padding-bottom: 50px; float: left;">
-<button type="primary" bindtap="save">保存</button>
-</view>
-</view>
-
-<view class="commodity_attr_box" wx:if="{{showcode}}" style="top:{{height}}px">
-<view style="overflow-y: scroll; text-align: center; height:85%;">
-  <image src="https://xj.tajian.cc/servers/{{tCode}}" style="width:100%;" mode="widthFix"/>
-</view>
-<view style="height:15%;width:30%; margin-left:35%;  z-index: 999; background-color: #fff; text-align: center; margin-top: 20px;">
-<button type="default" bindtap="hidecode">关闭</button>
-</view>
+<!-- Assignment Modal (Reused from InspectList) -->
+<view class="commodity_screen" wx:if="{{assignShow}}"></view>
+<view class="commodity_attr_box" wx:if="{{assignShow}}" style="top:25%; left: 10%; width: 80%; margin: 0; padding: 20px; box-sizing: border-box; border-radius: 8px;">
+    <view style="font-size: 18px; font-weight: bold; margin-bottom: 20px; text-align: center;">分配整改任务</view>
+    
+    <view style="margin-bottom: 15px;">
+        <picker range="{{people}}" range-key="hyName" bindchange="bindAssignUserChange">
+             <view style="background:#f5f5f5; padding: 12px; border-radius: 4px; font-size: 14px;">
+                指定整改人：<text style="color:#2A82E4; font-weight: bold;">{{assignUserIndex > -1 ? people[assignUserIndex].hyName : '请选择'}}</text>
+             </view>
+        </picker>
+    </view>
+    
+    <view style="margin-bottom: 15px;">
+        <textarea placeholder="请输入整改要求" bindinput="inputAssignRequest" value="{{assignRequest}}" style="background:#f5f5f5; padding: 10px; border-radius: 4px; width: 100%; height: 100px; box-sizing: border-box; font-size: 14px;"/>
+    </view>
+    
+    <view style="margin-bottom: 20px;">
+        <picker mode="date" bindchange="bindAssignDateChange">
+             <view style="background:#f5f5f5; padding: 12px; border-radius: 4px; font-size: 14px;">
+                整改期限：<text style="color:#333;">{{assignDeadline || '请选择'}}</text>
+             </view>
+        </picker>
+    </view>
+    
+    <view style="display: flex; justify-content: space-between;">
+        <button bindtap="hideAssignModal" style="width:45%; background-color: #f1f1f1; color: #333;" hover-class="button-hover">取消</button>
+        <button type="primary" bindtap="submitAssignment" style="width:45%;">确认分配</button>
+    </view>
 </view>

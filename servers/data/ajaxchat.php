@@ -1146,7 +1146,7 @@ switch ($tag) {
 		}
 
 		$zgState = $db->getzgstate($row["zgState"]);
-		$dtinfo[] = array("id" => $row["id"], "hypic" => $hypic, "hyname" => $row["hyName"], "gsName" => $row["gsName"], "yhAdd" => $row["yhAdd"], "yhPosition" => $row["yhPosition"], "yhContent" => $row["yhContent"], "yhSpeciality" => $row["yhSpeciality"], "together" => $row["together"], "posAdd" => $row["posAdd"], "inState" => ($row["inState"] ?? ""), "zgAsk" => $row["zgAsk"], "zgTime" => $row["zgTime"], "zgState" => $zgState, "State" => $row["zgState"], "addTime" => $row["addTime"]);
+		$dtinfo[] = array("id" => $row["id"], "hypic" => $hypic, "hyname" => $row["hyName"], "gsName" => $row["gsName"], "yhAdd" => $row["yhAdd"], "yhPosition" => $row["yhPosition"], "yhContent" => $row["yhContent"], "yhSpeciality" => $row["yhSpeciality"], "together" => $row["together"], "posAdd" => $row["posAdd"], "inState" => ($row["inState"] ?? ""), "zgAsk" => $row["zgAsk"], "zgTime" => $row["zgTime"], "zgState" => $zgState, "State" => $row["zgState"], "addTime" => $row["addTime"], "zgUserId" => $row["zgUserId"], "zgName" => $row["zgName"], "zgPhoto" => $row["zgPhoto"], "zgInfo" => $row["zgInfo"]);
 		$dtinfo = array("dtinfo" => $dtinfo);
 		$resV = json_encode($dtinfo);
 		break;
@@ -1187,6 +1187,57 @@ switch ($tag) {
 			} else
 				$hypic = "image/nopic.png";
 			$odlist[] = array("id" => $row["id"], "gsName" => $row["gsName"], "posAdd" => $row["posAdd"], "yhContent" => $row["yhContent"], "hyName" => $row["hyName"], "addTime" => $row["addTime"], "hypic" => $hypic, "count" => $co, "zgState" => $row["zgState"], "zgName" => $row["zgName"]);
+		}
+		$getodlist = array("odlist" => $odlist);
+		$resV = json_encode($getodlist);
+		break;
+	case "mytasklist":
+		$p = $db->getPar("p");
+		$hyid = $db->getPar("hyid");
+		$time = $db->getPar("time");
+		$times = $db->getPar("times");
+		$zgState = $db->getPar("zgState");
+
+		$odlist = array();
+
+		// Filter: Assigned to ME
+		$whe = "zgUserId='$hyid'";
+
+		if ($time != '' && $times != '')
+			$whe .= " and addTime>'$time' and addTime<'$times'";
+
+		if ($zgState != '') {
+			$whe .= " and zgState='$zgState'";
+		}
+
+		list($cur, $co, $pg, $pe, $ne, $cu, $results) = $db->getList("inspect", " $whe", "zgTime asc, addTime desc", "10");
+
+		foreach ($results as $odres) {
+			$row = $odres["Inspect"];
+			$hypic = $row["yhPhoto"];
+			if ($hypic != "") {
+				$hypic = substr($hypic, 0, -1);
+				$hypic = explode('|', $hypic);
+				$hypic = $hypic[0];
+			} else
+				$hypic = "image/nopic.png";
+
+			$odlist[] = array(
+				"id" => $row["id"],
+				"gsName" => $row["gsName"],
+				"posAdd" => $row["posAdd"],
+				"yhContent" => $row["yhContent"],
+				"hyName" => $row["hyName"],
+				"addTime" => $row["addTime"],
+				"hypic" => $hypic,
+				"count" => $co,
+				"zgState" => $row["zgState"],
+				"zgName" => $row["zgName"],
+				"zgAsk" => $row["zgAsk"],
+				"zgTime" => $row["zgTime"],
+				"address" => $row["yhPosition"],
+				"dangerType" => $row["yhSpeciality"]
+			);
 		}
 		$getodlist = array("odlist" => $odlist);
 		$resV = json_encode($getodlist);

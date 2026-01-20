@@ -31,6 +31,7 @@
     "pages/inspectinfo/inspectinfo",
     "pages/inspect/inspect",
     "pages/inspectlist/inspectlist",
+    "pages/mytask/mytask",
     "pages/inspectgroup/inspectgroup",
     "pages/stalrecord/stalrecord",
     "pages/stalledit/stalledit",
@@ -72,6 +73,12 @@
         "iconPath": "image/jz.png",
         "selectedIconPath": "image/jzon.png",
         "text": "我的巡检"
+      },
+      {
+        "pagePath": "pages/mytask/mytask",
+        "iconPath": "image/task.png",
+        "selectedIconPath": "image/taskon.png",
+        "text": "我的任务"
       },
       {
         "pagePath": "pages/hycenter/hycenter",
