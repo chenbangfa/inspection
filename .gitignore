@@ -1,0 +1,5 @@
+weichat/
+.DS_Store
+.idea/
+.vscode/
+*.log
