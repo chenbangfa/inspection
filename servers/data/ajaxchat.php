@@ -472,7 +472,8 @@ switch ($tag) {
 		$droname = $db->getPar("droname");
 		$myblue = $db->getPar("myblue");
 		$hyIdentity = $db->getPar("hyIdentity");
-		if ($hyIdentity >= 0)
+		// Fix for PHP 8: empty string >= 0 is false, logic requires it to be true if not provided (legacy behavior)
+		if ($hyIdentity === "" || $hyIdentity >= 0)
 			$whe = "tId='$tid'";
 		else
 			$whe = "1=2";
