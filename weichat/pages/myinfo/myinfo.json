@@ -1,0 +1,7 @@
+{
+  
+  "usingComponents": {
+    "nav-bar": "/nvabar/nvabar",
+    "ocr-navigator": "plugin://ocr-plugin/ocr-navigator"
+  }
+}

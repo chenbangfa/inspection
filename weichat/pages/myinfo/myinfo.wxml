@@ -1,0 +1,42 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="margin-top:{{height+10}}px;width: 100%; float: left;">
+<view style="width: 96%; margin-left: 2%; background-color: #fff; padding: 10px 0; float: left; border-radius:6px;">
+  <view class="vlist">
+  <span  class="vtit">类型：</span>
+  <view  class="vcont">
+  <checkbox-group bindchange="peoplechange">
+  <label style="width: 30%; margin-left:2%;float: left;"><checkbox value="0">个人</checkbox></label>
+  <label style="width: 30%; margin-left:2%;float: left;"><checkbox value="0">企业</checkbox></label>
+  </checkbox-group>
+  </view><span style="color: red; ">*</span>
+</view>
+<view class="vlist">
+  <span  class="vtit">名称：</span>
+  <view  class="vcont"><input placeholder="请输入巡检名称" bindinput="inputWacth" data-input="dropName" value=""/></view><span style="color: red; ">*</span>
+</view>
+<view class="vlist">
+  <span  class="vtit">分类：</span>
+  <view  class="vcont" bindtap="setGroup">{{gName}}</view><span style="color: red; ">*</span>
+</view>
+<view class="vlist">
+  <span  class="vtit">图片：</span>
+  <view style="width: 75%; float: left;">
+  <view wx:if="{{imgs.length>0}}" wx:for="{{imgs}}" wx:key="item" style="width: 23%; float: left; margin-right: 3px; ">
+    <view bindtap='deleteImg' data-index="{{index}}">
+      <image src="https://xj.tajian.cc/servers/{{item}}" style="width: 100%; min-height:65px; max-height: 100px;" mode="widthFix"></image>
+      </view>
+    </view>
+    <view style="width: 23%; float: left;" wx:if="{{imgs.length >= 3 ? false : true}}" bindtap="bindUpload">
+      <image src="https://xj.tajian.cc/servers/image/addpic.png" style="width: 100%;" mode="widthFix"></image>
+    </view>
+  </view>
+</view>
+</view>
+
+
+</view>
+
+<view style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%; padding-bottom: 50px; float: left;">
+<button type="primary" bindtap="save" wx:if="{{clickFlag}}">保存</button>
+<button type="default" wx:else>保存</button>
+</view>

@@ -1,0 +1,31 @@
+/* pages/dtadd/dtadd.wxss */
+.vlist{width:100%; padding:10px 0; font-size:14px; border-bottom:1px solid #e6e6e6; float: left;}
+.vtit{float:left; color:#666;  width: 21%; padding-left: 10px; }
+.vcont{float:left;color:#473436;width: 70%;}
+.arrow{width:8px;height:8px;border-top: 1px solid #999;border-right: 1px solid #999;position: absolute;right:40rpx;transform: rotate(45deg);margin-top:6px;}
+
+.commodity_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #999;
+  opacity: 0.9;
+  overflow: hidden;
+  z-index: 999;
+  color: #fff;
+}
+
+.commodity_attr_box {
+  width: 96%;
+  margin-left: 2%;
+  margin-top: 10px;
+  position: fixed;
+  border-radius: 12px;
+  background: #fff;
+  padding-top: 20rpx;
+  font-size: 14px;
+  color: #333;
+  z-index: 999;
+}

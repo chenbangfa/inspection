@@ -1,0 +1,228 @@
+/** index.wxss **/
+page {
+  background-color: #f6f7f9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+}
+
+/* 轮播图 */
+.banner-container {
+  width: 100%;
+  height: 420rpx;
+  position: relative;
+}
+
+.banner-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 通知栏 */
+.notice-bar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 0 30rpx;
+  height: 80rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.02);
+}
+
+.notice-icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 20rpx;
+}
+
+.notice-swiper {
+  flex: 1;
+  height: 100%;
+}
+
+.notice-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-size: 26rpx;
+  color: #666;
+}
+
+/* 通用卡片容器 */
+.card-container {
+  margin: 0 24rpx 24rpx;
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+/* 今日概况卡片 (黄色主题保持不变或微调为更柔和的橙色) */
+.overview-card {
+  background: linear-gradient(135deg, #FF9900 0%, #FFB700 100%);
+  color: #fff;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.card-title::before {
+  content: '';
+  display: inline-block;
+  width: 8rpx;
+  height: 32rpx;
+  background-color: #fff;
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+}
+
+.card-title.dark-text {
+  color: #333;
+}
+.card-title.dark-text::before {
+  background-color: #2A82E4;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.stat-num {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+/* 功能网格 */
+.function-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+
+.grid-item {
+  width: 31%;
+  height: 180rpx;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s;
+}
+
+.grid-item:active {
+  transform: scale(0.98);
+}
+
+.grid-icon {
+  width: 64rpx;
+  height: 64rpx;
+  margin-bottom: 16rpx;
+}
+
+.grid-text {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+/* 颜色变体 */
+/* 颜色变体 */
+.bg-blue { background: linear-gradient(135deg, #2A82E4 0%, #0066CC 100%); }
+.bg-cyan { background: linear-gradient(135deg, #00D7C6 0%, #00BFA5 100%); }
+.bg-azure { background: linear-gradient(135deg, #32A0FF 0%, #0077EE 100%); }
+.bg-purple { background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); }
+.bg-gold { background: linear-gradient(135deg, #C59C6C 0%, #A67C52 100%); }
+.bg-orange { background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%); }
+.bg-deep-orange { background: linear-gradient(135deg, #FF5722 0%, #E64A19 100%); }
+.bg-teal { background: linear-gradient(135deg, #26A69A 0%, #00897B 100%); }
+.bg-indigo { background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%); }
+
+
+/* 统计数据网格 */
+.data-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.data-box {
+  width: 18%;
+  background-color: #f8f9fa;
+  border-radius: 12rpx;
+  padding: 20rpx 0;
+  text-align: center;
+  margin-top: 0;
+}
+
+.data-num {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #2A82E4;
+  margin-bottom: 8rpx;
+}
+
+.data-label {
+  font-size: 22rpx;
+  color: #888;
+}
+
+/* 模板设置列表 */
+.template-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.template-item {
+  width: 100%;
+  margin-bottom: 0;
+  padding: 30rpx 0;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 4rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.template-box {
+    width: 48%;
+    margin-bottom: 24rpx;
+}

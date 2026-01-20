@@ -1,0 +1,141 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="width: 100%; float: left;" style="margin-top:{{height+10}}px;">
+  <view style="width: 96%; margin-left: 2%;background-color: #fff; border-radius:6px; float: left;">
+  
+  <view style="float:left;  color:#473436;  width:100%; margin-left: 10px; padding: 10px 0; border-bottom: 1px solid #e9e9e9;">
+    <span style="float: left;font-size: 16px;">区域名称</span >
+      <input placeholder="请输入区域名称" bindinput="inputWacth" data-input="dropName" value="{{dropName}}" style="float: left; margin-left:20px;"/>
+  </view>
+
+  <view style="float:left;  color:#473436;  width:100%; margin-left: 10px; padding: 10px 0; border-bottom: 1px solid #e9e9e9;">
+    <span style="float: left;font-size: 16px;">营业时间</span >
+      <picker mode="time" value="{{starttime}}" start="00:00" end="23:59" bindchange="starttimeChange" style="float: left; margin-left:20px;">
+    <view class="picker">
+       {{starttime}}
+    </view>
+  </picker>
+  <span style="float: left; margin-left:20px;">-</span>
+  <picker mode="time" value="{{endtime}}" start="00:00" end="23:59" bindchange="endtimeChange" style="float: left; margin-left:20px;">
+    <view class="picker">
+      {{endtime}}
+    </view>
+  </picker>
+  </view>
+  
+  <view style="float:left;  color:#473436;  width:100%; margin-left: 10px; padding: 10px 0; border-bottom: 1px solid #e9e9e9;">
+    <span style="float: left;font-size: 16px;">摊位数量</span >
+      <input type="number" placeholder="请输入规划摊位数量" bindinput="inputWacth" data-input="stallnum" value="{{stallnum}}" style="float: left; margin-left:20px;"/>
+  </view>
+  <view bindtap="getadd" style="float:left;  color:#473436;  width:100%; margin-left: 10px; padding: 10px 0; border-bottom: 1px solid #e9e9e9;">
+  <span style="float: left;font-size: 16px;">区域位置</span >
+  <view style="float:left;width: 75%; margin-left:20px;">
+  <input placeholder="点击选择流动摊位位置" disabled="true" value="{{addname}}"/>
+  </view>
+  <span class="arrow" style="margin-top: 8px;"></span>
+</view>
+  <view style="float:left;  color:#473436;  width:100%; margin-left: 10px; padding: 10px 0; border-bottom: 1px solid #e9e9e9;">
+  <span style="float: left;font-size: 16px;">规划图片</span >
+  <view style="width: 75%; float: left; margin-left: 20px;">
+  <view wx:if="{{imgs.length>0}}" wx:for="{{imgs}}" wx:key="item" style="width: 23%; float: left; margin-right: 3px; ">
+    <view bindtap='deleteImg' data-index="{{index}}">
+      <image src="https://xj.tajian.cc/servers/{{item}}" style="width: 100%; min-height:65px; max-height: 100px;" mode="widthFix"></image>
+      </view>
+    </view>
+    <view style="width: 23%; float: left;" wx:if="{{imgs.length >= 3 ? false : true}}" bindtap="bindUpload">
+      <image src="https://xj.tajian.cc/servers/image/addpic.png" style="width: 100%;" mode="widthFix"></image>
+    </view>
+  </view>
+</view>
+  <view style="float:left;  color:#473436;  width:100%; margin-left: 10px; padding: 10px 0; border-bottom: 1px solid #e9e9e9;">
+  <span style="float: left;font-size: 16px;">摊位说明</span >
+    <view style="width: 75%; float: left; margin-left: 20px;">
+  <textarea placeholder="可填写摊位介绍，经营范围等" bindinput="inputWacth" data-input="dropInfo" value="{{dropInfo}}" style="width: 100%; height: 60px;"></textarea></view>
+</view>
+
+</view>
+
+
+
+<view style="width: 96%; margin-left: 2%; background-color: #fff; padding: 10px 0; float: left; border-radius:6px; margin-top: 10px;">
+<view style="border-bottom: 1rpx solid #e6e6e6; padding-bottom: 10px; float: left; width: 100%;">
+<span style="margin-left: 10px; font-weight: bold;">摊位释放设置</span>
+</view>
+
+<view class="vlist">
+  <span  class="vtit" style="width: 21%;">释放周期</span>
+  <view  class="vcont" style="width: 70%;">
+    <picker style="text-align: right;" bindchange="exitChange" value="{{exitindex}}" range="{{exitzhouqi}}">
+      {{exitzqvalue}}
+    </picker></view>
+  <font class="arrow" style="margin-top:5px;"></font> 
+</view>
+<view class="vlist" wx:if="{{exitdate!=''}}">
+  <span  class="vtit" style="width: 21%;">释放日期</span>
+  <view  class="vcont" style="width: 70%;">
+    <picker style="text-align: right;" bindchange="exitdateChange" value="{{exitdateindex}}" range="{{exitdatelist}}">
+      {{exitdate}}
+    </picker></view>
+  <font class="arrow" style="margin-top:5px;"></font> 
+</view>
+<view class="vlist">
+  <span  class="vtit" style="width:21%;">释放时间</span>
+  <view  class="vcont" style="width:70%;">
+    <picker mode="time" value="{{exittime}}" start="00:00" end="23:59" bindchange="exittimeChange" style="text-align: right;">
+      {{exittime}}
+  </picker></view>
+  <font class="arrow" style="margin-top:5px;"></font> 
+</view>
+
+</view>
+
+<view style="width: 96%; margin-left: 2%; background-color: #fff; padding: 10px 0; float: left; border-radius:6px; margin-top: 10px;">
+<view style="border-bottom: 1rpx solid #e6e6e6; padding-bottom: 10px; float: left; width: 100%;">
+<span style="margin-left: 10px; font-weight: bold;">摊位登记设置</span>
+</view>
+
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width:100%; margin-left: 10px;">是否要求上传身份证件：</span>
+  <view style="float:left;width:100%; color: #111; margin-left: 10px; margin-top: 10px;">
+<radio-group bindchange="inputWacth" data-input="bmsfz">
+  <label style="width:32%; margin-left:1%;float: left;"><radio value="0" checked="{{bmsfz==0?true:false}}">无</radio></label>
+  <label style="width: 32%; margin-left:1%;float: left;"><radio value="1" checked="{{bmsfz==1?true:false}}">身份证</radio></label>
+  <label style="width:32%; margin-left:1%;float: left;"><radio value="2" checked="{{bmsfz==2?true:false}}">营业执照</radio></label>
+  </radio-group></view>
+</view>
+
+<view wx:if="{{false}}" style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width:100%; margin-left: 10px;">是否要求登记经营类目：</span>
+  <view style="float:left;width:100%; color: #111; margin-left: 10px; margin-top: 10px;">
+<radio-group bindchange="inputWacth" data-input="bmjyhy">
+  <label style="width:32%; margin-left:1%;float: left;"><radio value="0" checked="true">不需要</radio></label>
+  <label style="width: 32%; margin-left:1%;float: left;"><radio value="1">需要</radio></label>
+  </radio-group></view>
+</view>
+
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width:100%; margin-left: 10px;">是否要求上传经营工具照片</span>
+  <view style="float:left;width:100%; color: #111; margin-left: 10px; margin-top: 10px;">
+<radio-group bindchange="inputWacth" data-input="bmjygj">
+  <label style="width:32%; margin-left:1%;float: left;"><radio value="0" checked="{{bmjygj==0?true:false}}">不需要</radio></label>
+  <label style="width: 32%; margin-left:1%;float: left;"><radio value="1" checked="{{bmjygj==1?true:false}}">需要</radio></label>
+  </radio-group></view>
+</view>
+
+<view wx:if="{{false}}" style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width:100%; margin-left: 10px;">是否要求登记手机号：</span>
+  <view style="float:left;width:100%; color: #111; margin-left: 10px; margin-top: 10px;">
+<radio-group bindchange="inputWacth" data-input="bmtel">
+  <label style="width:32%; margin-left:1%;float: left;"><radio value="0" checked="true">不需要</radio></label>
+  <label style="width: 32%; margin-left:1%;float: left;"><radio value="1">需要</radio></label>
+  </radio-group></view>
+</view>
+</view>
+</view>
+
+<view style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%; padding-bottom: 50px; float: left;">
+<button type="primary" bindtap="save" wx:if="{{clickFlag}}">保存</button>
+<button type="default" wx:else>保存</button>
+</view>
+
+
+

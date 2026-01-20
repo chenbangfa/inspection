@@ -1,0 +1,117 @@
+
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="float: left; width: 100%;margin-top:{{height+20}}px;  padding-bottom:20px;">
+<view style="width: 100%; float: left;">
+  <view style="float: left;"><image src="../../image/myinfo.png" style="width:30px;height:30px;float:left; margin-left: 10px; border-radius: 50%; margin-right: 5px;"></image><view style="margin-top: 5px;float: left;">{{hyName}}</view> <span class="arrowleft"></span></view>
+  <navigator url="../welcome/welcome">
+  <view style="float: right;border: 1px solid #ededed; background-color: #ededed; border-radius:12px; margin-right: 10px; font-size: 14px; padding-right: 5px;"><image src="../../image/rygl.png" style="width:30px;height:30px;float:left; margin-left: 10px; border-radius: 50%; margin-right: 5px;"></image><view style="margin-top: 5px;float: left;">切换账号</view></view></navigator>
+</view>
+
+<view wx:if="{{hyIdentity>0}}" style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #222333;background-color: #222333;float: left; margin-top:20px; padding:10px 0;">
+<view style="float: left; width:70%;">
+  <view style="font-size: 16px;margin-left:9px; color:#f4c6a5; font-weight: bold;">{{tName}}</view>
+  <view style="font-size: 14px;  margin-left:9px; color: #8b746c;margin-top:5px;">添加用户，权限设置，功能配置等</view>
+</view>
+<navigator url="../teaminfo/teaminfo?tname={{tName}}">
+  <view style="float: right; width:25%; text-align: center;border:1px solid #fad4b3; border-radius:6px; background-color: #fad4b3; padding:5px 0; margin-right: 5px; margin-top:7px; color: #7d583e; font-weight: bold;">
+  团队管理
+  </view>
+</navigator>
+</view>
+
+<view class="myorder">
+<view>
+<span class="orderhead">周期巡检</span>
+</view>
+<navigator url="../bluecount/bluecount">
+<view class="order">
+  <image src="../../image/tongji.png" style="width:30px;height:30px; "></image>
+  <view style="  font-size: 14px; margin-top:5px;">巡检统计</view>
+</view>
+</navigator>
+<navigator url="../blueorder/blueorder">
+<view class="order">
+  <image src="../../image/xjjl.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">巡检记录</view>
+</view>
+</navigator>
+<navigator url="../blueabnormal/blueabnormal">
+<view class="order">
+  <image src="../../image/yc.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">巡检异常</view>
+</view>
+</navigator>
+<navigator url="../timeout/timeout">
+<view class="order">
+  <image src="../../image/xjyj.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">超时未检</view>
+</view>
+</navigator>
+<navigator url="../bluelist/bluelist" wx:if="{{hyIdentity>0}}">
+<view class="order">
+  <image src="../../image/dt.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">巡检点管理</view>
+</view>
+</navigator>
+<navigator url="../bluegroup/bluegroup" wx:if="{{hyIdentity>0}}">
+<view class="order">
+  <image src="../../image/zj.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">巡检点分类</view>
+</view>
+</navigator>
+<navigator url="../blueset/blueset" wx:if="{{false}}">
+<view class="order">
+  <image src="../../image/xjsz.png" style="width:30px;height:30px; "></image>
+  <view style="  font-size: 14px; margin-top:5px;">巡检设置</view>
+</view>
+</navigator>
+</view>
+
+<view class="myorder">
+<view>
+<span class="orderhead">日常巡检</span>
+</view>
+<navigator url="../inspectcout/inspectcout" wx:if="{{false}}">
+<view class="order">
+  <image src="../../image/dktj.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">签到统计</view>
+</view>
+</navigator>
+<navigator url="../inspectlist/inspectlist">
+<view class="order">
+  <image src="../../image/rctj.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">巡检记录</view>
+</view>
+</navigator>
+<navigator url="../inspectgroup/inspectgroup" wx:if="{{hyIdentity>0}}">
+<view class="order">
+  <image src="../../image/zy.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">隐患分类</view>
+</view>
+</navigator>
+<navigator url="../inspectset/inspectset" wx:if="{{false}}">
+<view class="order">
+  <image src="../../image/daka.png" style="width:30px;height:30px; "></image>
+  <view style="  font-size: 14px; margin-top:5px;">签到设置</view>
+</view>
+</navigator>
+</view>
+<view class="myorder">
+<view>
+<span class="orderhead">帮助中心</span>
+</view>
+<view class="order" bindtap="callphoto">
+  <image src="../../image/kefu.png" style="width:30px;height:30px; "></image>
+  <view style="  font-size: 14px; margin-top:5px;">联系客服</view>
+</view>
+<navigator url="../help/help">
+<view class="order">
+  <image src="../../image/bang.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">帮助文档</view>
+</view></navigator>
+<view class="order" bindtap="callphoto">
+  <image src="../../image/fkxx.png" style="width:30px;height:30px; "></image>
+  <view style="font-size: 14px; margin-top:5px;">反馈需求</view>
+</view>
+</view>
+</view>

@@ -1,0 +1,33 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="float: left; width: 100%;margin-top:{{height}}px; ">
+
+  <block wx:for="{{odlist}}" wx:for-item="articles" wx:key="id" wx:for-index="id">
+  <block wx:for="{{articles}}" wx:for-item="item" wx:key="id" wx:for-index="index">
+  <view class="articles" bindtap="onBlueChange" data-devid="{{item.deviceId}}">
+  
+    <view class="vpic">
+    <image src='https://xj.tajian.cc/servers/{{item.dropPhoto}}' class="pic" mode="aspectFill"></image>
+    </view> 
+    <view class="vtit">
+      <view class="tit">{{item.dropName }}{{item.deviceId}}</view>
+    </view>    
+    <view class="vinfo" style="line-height: 22px;">
+      <view class="vlist">编号：{{item.dropNo}}</view>
+      <view class="vlist">分类：{{item.dropClass}}</view>
+
+      <view class="vlist" style="letter-spacing: 1px; border-bottom: 1px solid #e6e6e6; padding-bottom: 5px;">{{item.patrolCycle}}巡检{{item.patrolNum }}次，每次间隔{{item.patrolDiff}}{{item.patrolCycle=="每天"?"小时":"天"}}</view>
+  
+      <view class="vlist" wx:if="{{item.addTime!=''}}" style="margin-top: 5px;"><span style="background-color: #e9e9e9; padding:5px 5px; border-radius: 6px; float: left;">最近巡检：{{item.addTime}} {{item.hyName}}</span></view>
+
+
+    </view>
+    <span class="arrow"></span>
+
+  </view>
+  </block>
+</block>
+<view class="vnodata" wx:if="{{isdata}}">
+<view>正在搜索附近巡检点...</view>
+</view>
+</view>
+

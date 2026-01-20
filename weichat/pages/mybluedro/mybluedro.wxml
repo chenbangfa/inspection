@@ -1,0 +1,143 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="float: left; width: 100%;margin-top:{{height}}px;  padding-bottom:10px; ">
+<view class="searchview">
+<span bindtap="viewWacth" data-views="editshow" data-isval="{{true}}" class="searchspan">周期查询</span>
+<span bindtap="viewWacth" data-views="resshow" data-isval="{{true}}" class="searchspan">完成情况</span>
+<span bindtap="viewWacth" data-views="stateshow" data-isval="{{true}}" class="searchspan">巡检情况</span>
+<span bindtap="viewWacth" data-views="groupshow" data-isval="{{true}}" class="searchspan">巡检分类</span>
+</view>
+<view class="searchshow">
+<block wx:if="{{zqvalue!=''||result!=''||states!=''||gname!=''||droname!=''}}" >
+<view style="font-weight: bold;">查询条件</view>
+<view style="width: 100%; float: left;" wx:if="{{zqvalue!=''}}">周期查询：{{zqvalue}} 
+<span bindtap="dataclase" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+<view style="width: 100%; float: left;" wx:if="{{result!=''}}">完成情况：{{result}}
+<span bindtap="resclase" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+<view style="width: 100%; float: left;" wx:if="{{states!=''}}">巡检情况：{{states}}
+<span bindtap="statesclase" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+<view style="width: 100%; float: left;" wx:if="{{gname!=''}}">巡检分类：{{gname}}
+<span bindtap="gnameclase" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+<view style="width: 100%; float: left;" wx:if="{{droname!=''}}">名称查询：{{droname}}
+<span bindtap="dronameclase" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+</block>
+</view>
+
+<view wx:for="{{odlist}}" wx:for-item="articles" wx:key="id" wx:for-index="id" style="float: left; width: 100%;">
+  <view wx:for="{{articles}}" wx:for-item="item" wx:key="id" wx:for-index="index" class="articles">
+  <navigator url="../blueinspect/blueinspect?id={{item.id}}">
+    <view class="vpic">
+    <image src='https://xj.tajian.cc/servers/{{item.dropPhoto}}' class="pic" mode="aspectFill"></image>
+    </view> 
+    <view class="vtit">
+      <view class="tit">{{item.dropName }}</view>
+    </view>    
+  </navigator>
+    <view class="vinfo" style="line-height: 22px;">
+  <navigator url="../blueinspect/blueinspect?id={{item.id}}">
+      <view class="vlist">编号：{{item.dropNo}}</view>
+      <view class="vlist">分类：{{item.dropClass}}</view>
+      <view class="vlist">{{item.patrolCycle}}巡检{{item.patrolNum }}次，每次间隔{{item.patrolDiff}}{{item.patrolCycle=="每天"?"小时":"天"}}</view>  
+      <view class="vlist" wx:if="{{item.addTime!=''}}" style="margin-top: 5px;">
+        <view class="vspan">最近巡检：{{item.addTime}}</view> 
+      </view>
+      
+    </navigator>
+      <view class="vlist" style="margin-top:10px; padding-bottom: 10px;">
+        <span style="float: left; color: #ffa41e;">已巡检{{item.xjcount}}次！</span>
+        <span style="float: right;background-color: #e0faf8; padding:1px 5px; border-radius: 6px; margin-right:10px;{{item.xjtit=='已到巡检时间'?'color: #f00;':'color: #3ccbda;'}}">
+          {{item.xjtit}}
+        </span>
+      </view> 
+    </view>
+    <span class="arrow"></span>
+  </view>
+</view>
+
+<view class="vnodata" wx:if="{{isdata}}">
+<view>没有巡检点~</view>
+</view>
+</view>
+
+
+<view class="commodity_screen" wx:if="{{editshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{editshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">周期查询</span >
+<view style=" float: right; margin-right: 10px;" bindtap="viewWacth" data-views="editshow" data-isval="{{false}}"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff;  padding-top: 10px;">
+<view style="width: 97%; float: left;">
+  <span class='dataspan' bindtap="dataserach" data-ziduan="zqvalue" data-zdval="每天">每天</span>
+  <span class='dataspan' bindtap="dataserach" data-ziduan="zqvalue" data-zdval="每周">每周</span>  
+  <span class='dataspan' bindtap="dataserach" data-ziduan="zqvalue" data-zdval="每月">每月</span>
+  <span class='dataspan' bindtap="dataserach" data-ziduan="zqvalue" data-zdval="每季">每季</span>
+  <span class='dataspan' bindtap="dataserach" data-ziduan="zqvalue" data-zdval="每年">每年</span>
+</view>
+</view>
+<view class="sbutton"></view>
+</view>
+
+
+<view class="commodity_screen" wx:if="{{resshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{resshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">完成情况</span >
+<view style=" float: right; margin-right: 10px;" bindtap="viewWacth" data-views="resshow" data-isval="{{false}}"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff;  padding-top: 10px;">
+<view style="width: 97%; float: left;">
+  <span class='dataspan' bindtap="resserach" data-typedata="待巡检" data-drostate="0">待巡检</span>
+  <span class='dataspan' bindtap="resserach" data-typedata="未到时" data-drostate="1">未到时</span>
+  <span class='dataspan' bindtap="resserach" data-typedata="已完成" data-drostate="2">已完成</span>  
+</view>
+</view>
+<view class="sbutton"></view>
+</view>
+
+
+<view class="commodity_screen" wx:if="{{stateshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{stateshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">巡检情况</span >
+<view style=" float: right; margin-right: 10px;" bindtap="viewWacth" data-views="stateshow" data-isval="{{false}}"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff;  padding-top: 10px;">
+<view style="width: 97%; float: left;">
+  <span class='dataspan' bindtap="stateserach" data-typedata="正常" data-drores="0">正常</span>
+  <span class='dataspan' bindtap="stateserach" data-typedata="异常" data-drores="1">异常</span>  
+</view>
+</view>
+<view class="sbutton"></view>
+</view>
+
+
+<view class="commodity_screen" wx:if="{{groupshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{groupshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">巡检分类</span >
+<view style=" float: right; margin-right: 10px;" bindtap="viewWacth" data-views="groupshow" data-isval="{{false}}"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; padding-top: 10px;">
+  <checkbox-group bindchange="zychange">
+  <label wx:for="{{group}}" wx:key="index" style="width: 30%; margin-left:2%;float: left;">
+  <checkbox value="{{item.gName}}">{{item.gName}}</checkbox>
+  </label>
+  </checkbox-group>
+  <view style="float:left;color:#666;width:100%; text-align: center;">
+  <input placeholder="请输入巡检点名称查询" bindinput="inputWacth" data-input="droname" style="width:96%; border: 1px solid #e9e9e9;  padding:8px 0; margin-left: 2%; margin-top: 20px;"/>
+</view>
+</view>
+<view style="width:100%;  text-align: center; padding-bottom: 20px;background-color: #fff; float: left; padding-top:20px;  border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+<button type="primary" bindtap="searchname" style="width:30%; line-height:36px; font-size: 16px;">搜索</button>
+</view>
+</view>

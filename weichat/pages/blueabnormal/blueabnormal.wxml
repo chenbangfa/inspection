@@ -1,0 +1,139 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="float: left; width: 100%;margin-top:{{height}}px;  padding-bottom:80px;">
+<view class="searchview">
+<span bindtap="datashow" class="searchspan">日期查询</span>
+<span wx:if="{{hyIdentity>0}}" bindtap="getpeople" class="searchspan">巡检人</span>
+<span bindtap="getzylist" class="searchspan">巡检分类</span>
+</view>
+<view class="searchshow">
+<block wx:if="{{sdate!=''||together!=''||zysearch!=''||typedata!=''}}" >
+<view style="font-weight: bold;">查询条件</view>
+<view style="width: 100%; float: left;" wx:if="{{sdate!=''}}">开始日期：{{sdate}}</view>
+<view style="width: 100%; float: left;" wx:if="{{edate!=''}}">结束日期：{{edate}} 
+<span bindtap="closedate" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+<view style="width: 100%; float: left;" wx:if="{{together!=''}}">巡检人员：{{together}}
+<span bindtap="closehy" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+<view style="width: 100%; float: left;" wx:if="{{zysearch!=''}}">隐患分类：{{zysearch}}
+<span bindtap="closezy" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+<view style="width: 100%; float: left;" wx:if="{{typedata!=''}}">巡检情况：{{typedata}}
+<span bindtap="closezt" class="closespan">
+  <image src="../../image/close.png" style="width:10px; height:10px;"/>
+</span></view>
+</block>
+</view>
+
+<view wx:for="{{odlist}}" wx:for-item="articles" wx:key="id" wx:for-index="id" style="float: left; width: 100%;">
+  <view wx:for="{{articles}}" wx:for-item="item" wx:key="id" wx:for-index="index" class="articles">
+  <navigator url="../blueorderinfo/blueorderinfo?id={{item.id}}">
+    <view class="vpic">
+    <image src='https://xj.tajian.cc/servers/{{item.hypic}}' class="pic" mode="aspectFill"></image>
+    </view>
+ 
+    <view class="vtit">
+      <view class="tit">{{item.dropName}}</view>
+      <span class="vspan" wx:if="{{item.odState==1}}">异常</span>
+      <span class="zcspan" wx:else="">正常</span>
+    </view>    
+    <view class="vinfo">
+      <view class="vlist">{{item.odInfo}}</view>
+      
+    </view> 
+    <view class="vinfo">
+      
+      <view class="vlist">{{item.addTime}}</view>
+    </view>   
+    <view class="vinfo">
+      <image src='../../image/wz.png' class="addpic"></image>
+      <view class="vlist">{{item.posAdd}}</view>
+    </view>
+    <span class="arrow"></span>
+  </navigator>
+  </view>
+</view>
+
+<view class="vnodata" wx:if="{{isdata}}">
+<view>没有巡检记录~</view>
+</view>
+</view>
+
+<view class="footer">
+<view class="count">合计：{{count}} 条</view>
+  <view class="excel" bindtap="download">导出Excel</view>
+</view>
+
+<view class="commodity_screen" wx:if="{{editshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{editshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">日期查询</span >
+<view style=" float: right; margin-right: 10px;" bindtap="hideeditshow"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; line-height: 32px;">
+<view style="width: 97%; float: left;">
+  <span class='dataspan' bindtap="dataserach" data-typedata="全部">全部</span>
+  <span class='dataspan' bindtap="dataserach" data-typedata="今日">今日</span>
+  <span class='dataspan' bindtap="dataserach" data-typedata="昨日">昨日</span>  
+  <span class='dataspan' bindtap="dataserach" data-typedata="上周">上周</span>
+  <span class='dataspan' bindtap="dataserach" data-typedata="本周">本周</span>
+  <span class='dataspan' bindtap="dataserach" data-typedata="本月">本月</span>
+  <span class='dataspan' bindtap="dataserach" data-typedata="本季">本季</span>
+  <span class='dataspan' bindtap="dataserach" data-typedata="本年">本年</span>
+</view>
+<view style="width: 100%;float: left; margin-left: 3%; margin-top:10px;">
+  <picker style=" float: left; width:45%;background-color: #f9f9f9; border-radius:3px;color: #666; font-size: 14px; text-align: center;" mode="date" value="{{sdate}}" bindchange="bindDateChange">
+    <view style="margin-left: 10px;">
+      {{sdate==''?'开始日期':sdate}}
+    </view>
+  </picker><span style="float: left;color: #666; width:4%;text-align: center; "> - </span>
+  <picker style=" float: left; width:45%;background-color: #f9f9f9; border-radius:3px;color: #666; font-size: 14px; text-align: center;" mode="date" value="{{edate}}" bindchange="endDateChange">
+    <view style="margin-left: 10px;">
+      {{edate==''?'结束日期':edate}}
+    </view>
+  </picker>
+</view>
+</view>
+<view class="sbutton">
+<button type="primary" bindtap="searchdate" style="width:30%; line-height:36px; font-size: 16px;">搜索</button>
+</view>
+</view>
+
+<view class="commodity_screen" wx:if="{{peopleshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{peopleshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">巡检人查询</span >
+<view style=" float: right; margin-right: 10px;" bindtap="hidepeople"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; line-height: 36px;">
+  <checkbox-group bindchange="peoplechange">
+  <label wx:for="{{people}}" wx:key="index" style="width: 30%; margin-left:2%;float: left;">
+  <checkbox value="{{item.hyName}}">{{item.hyName}}</checkbox>
+  </label>
+  </checkbox-group>
+</view>
+<view class="sbutton">
+<button type="primary" bindtap="searchhy" style="width:30%; line-height:36px; font-size: 16px;">搜索</button>
+</view>
+</view>
+
+<view class="commodity_screen" wx:if="{{zyshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{zyshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">巡检分类查询</span >
+<view style=" float: right; margin-right: 10px;" bindtap="hidezyshow"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; line-height: 36px;">
+  <checkbox-group bindchange="zychange">
+  <label wx:for="{{zylist}}" wx:key="index" style="width: 30%; margin-left:2%;float: left;">
+  <checkbox wx:if="{{index>0}}" value="{{item.gName}}">{{item.gName}}</checkbox>
+  </label>
+  </checkbox-group>
+</view>
+<view class="sbutton">
+<button type="primary" bindtap="searchzy" style="width:30%; line-height:36px; font-size: 16px;">搜索</button>
+</view>
+</view>

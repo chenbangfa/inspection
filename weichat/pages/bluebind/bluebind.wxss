@@ -1,0 +1,40 @@
+/* pages/dtlist/dtlist.wxss */
+page{background-color: #f9f9f9;}
+.arrow{width:8px;height:8px;border-top: 1px solid #999;border-right: 1px solid #999;position: absolute;right: 20rpx;transform: rotate(45deg);margin-top:12px;}
+.articles{width: 100%; float: left; background-color: #fff; padding: 10px 0; margin-top:10px;}
+.vtit{float:left;width:100%; text-align: left; margin-left:8px; font-size: 16px;}
+.tit{ float: left; margin-top: 5px; font-weight: bold;}
+.vinfo{float:left;width: 100%;margin-top:2px;}
+.vlist{font-size: 14px; text-align: left; margin-left:8px; color: #333; width: 100%; float: left;}
+.addpic{width: 14px; height:14px; margin-right: 5px; float: left; margin-top:3px; margin-left: 6px;}
+.vnodata{ text-align: center; padding: 50px 0; background-color: #fff;color: #999; float: left; width: 100%; margin-top: 10px;}
+
+.arrowdown{ 
+  width: 6px;   
+  height: 6px;   
+  border-top: 2px solid #666;   
+  border-right: 2px solid #666;
+   float: right;
+    margin-top:5px;
+    margin-right:15px;
+  transform: rotate(135deg);
+  }
+
+  .z-title {
+    padding: 30rpx 0;
+    text-align: center;
+    font-size: 16px;
+    color: #666666;
+    background-color: white;
+  }
+  .z-status {
+    padding:10rpx 15rpx;
+  }
+  .z-connect{
+    margin-left:30rpx !important;
+  }
+  .z-devices-tip{
+    text-align: center;
+    padding:10rpx 0;
+    font-size: 24rpx;
+  }

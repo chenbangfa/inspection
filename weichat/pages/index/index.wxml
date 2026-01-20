@@ -1,0 +1,142 @@
+<!-- 顶部 Banner -->
+<view class="banner-container">
+    <swiper autoplay="true" indicator-dots="true" class="banner-swiper" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
+        <block>
+            <swiper-item>
+                <image src="https://xj.tajian.cc/servers/image/bg.png?v=1" class="banner-image" mode="aspectFill"></image>
+            </swiper-item>
+        </block>
+    </swiper>
+</view>
+
+<!-- 通知栏 -->
+<view class="notice-bar">
+    <image src="../../image/tz.png" class="notice-icon" mode="widthFix"></image>
+    <swiper class="notice-swiper" vertical="true" autoplay="true" circular="true" interval="5000">
+        <block>
+            <swiper-item>
+                <view class="notice-item">落实安全责任，巩固安全防线。</view>
+            </swiper-item>
+        </block>
+    </swiper>
+</view>
+
+<!-- 今日概况 -->
+<view class="card-container overview-card">
+    <view class="card-title">今日概况</view>
+    <view class="stats-row">
+        <navigator url="../inspectlist/inspectlist" class="stat-item">
+            <view class="stat-num">{{rcxj}}</view>
+            <view class="stat-label">日常巡检</view>
+        </navigator>
+        <navigator url="../blueorder/blueorder" class="stat-item">
+            <view class="stat-num">{{zqxj}}</view>
+            <view class="stat-label">周期巡检</view>
+        </navigator>
+        <navigator url="../blueabnormal/blueabnormal" class="stat-item">
+            <view class="stat-num">{{ycnum}}</view>
+            <view class="stat-label">异常次数</view>
+        </navigator>
+    </view>
+</view>
+
+<!-- 核心功能区 -->
+<view class="card-container">
+    <view class="function-grid">
+        <navigator url="../inspect/inspect" class="grid-item bg-blue">
+            <image src="../../image/rcxj.png" class="grid-icon"></image>
+            <view class="grid-text">日常巡检</view>
+        </navigator>
+        <view bindtap='scanCode' class="grid-item bg-teal">
+            <image src="../../image/smxj.png" class="grid-icon"></image>
+            <view class="grid-text">扫码巡检</view>
+        </view>
+        <navigator url="../blueget/blueget" class="grid-item bg-indigo">
+            <image src="../../image/lyxj.png" class="grid-icon"></image>
+            <view class="grid-text">蓝牙巡检</view>
+        </navigator>
+    </view>
+</view>
+
+<!-- 巡检统计 -->
+<view class="card-container">
+    <view class="card-title dark-text">今日待巡检</view>
+    <view class="data-grid">
+        <view class="data-box">
+            <view class="data-num">{{jrxj<0?0:jrxj}}</view>
+            <view class="data-label">今日</view>
+        </view>
+        <view class="data-box">
+            <view class="data-num">{{bzxj<0?0:bzxj}}</view>
+            <view class="data-label">本周</view>
+        </view>
+        <view class="data-box">
+            <view class="data-num">{{byxj<0?0:byxj}}</view>
+            <view class="data-label">本月</view>
+        </view>
+        <view class="data-box">
+            <view class="data-num">{{bjxj<0?0:bjxj}}</view>
+            <view class="data-label">本季</view>
+        </view>
+        <view class="data-box">
+            <view class="data-num">{{bnxj<0?0:bnxj}}</view>
+            <view class="data-label">本年</view>
+        </view>
+    </view>
+</view>
+
+<!-- 巡检模板设置 -->
+<view class="card-container">
+    <view class="card-title dark-text">创建巡检模版</view>
+    <view class="template-grid">
+        <navigator url="../inspectset/inspectset?id=2" class="template-box">
+            <view class="template-item bg-purple">
+                <image src="../../image/sign.png" class="grid-icon"></image>
+                <view class="grid-text">垃圾分类模板</view>
+            </view>
+        </navigator>
+        <navigator url="../inspectset/inspectset?id=3" class="template-box">
+            <view class="template-item bg-gold">
+                <image src="../../image/rcxj.png" class="grid-icon"></image>
+                <view class="grid-text">物业安保模板</view>
+            </view>
+        </navigator>
+        <navigator url="../inspectset/inspectset?id=1" class="template-box">
+            <view class="template-item bg-cyan">
+                <image src="../../image/store.png" class="grid-icon"></image>
+                <view class="grid-text">消防安全自查</view>
+            </view>
+        </navigator>
+        <navigator url="../blueadd/blueadd" class="template-box">
+            <view class="template-item bg-azure">
+                <image src="../../image/kong.png" class="grid-icon"></image>
+                <view class="grid-text">自定义模板</view>
+            </view>
+        </navigator>
+    </view>
+</view>
+
+<!-- 管理专区 -->
+<view class="card-container">
+    <view class="card-title dark-text">摊位规范管理</view>
+    <view class="template-grid">
+        <navigator url="../stall/stall" class="template-box">
+            <view class="template-item bg-orange">
+                <image src="../../image/tw.png" class="grid-icon"></image>
+                <view class="grid-text">区域规划</view>
+            </view>
+        </navigator>
+        <navigator url="../stalrecord/stalrecord" class="template-box" wx:if="{{hyIdentity==-1}}">
+            <view class="template-item bg-deep-orange">
+                <image src="../../image/dian.png" class="grid-icon"></image>
+                <view class="grid-text">我的记录</view>
+            </view>
+        </navigator>
+        <navigator url="../stallcount/stallcount" class="template-box" wx:if="{{hyIdentity>0}}">
+            <view class="template-item bg-deep-orange">
+                <image src="../../image/dian.png" class="grid-icon"></image>
+                <view class="grid-text">数据统计</view>
+            </view>
+        </navigator>
+    </view>
+</view>

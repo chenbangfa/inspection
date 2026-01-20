@@ -1,0 +1,63 @@
+
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view id="page" style="float: left; width: 100%;margin-top:{{height+10}}px;  padding-bottom:20px;">
+
+
+
+  <view style="width: 96%; margin-left: 2%; background-color: #f6f6f6; border-radius: 6px; line-height: 28px; padding: 10px 0; font-size: 14px;">
+
+<view style="margin-left: 10px;"><image src="../../image/bang.png" style="width:16px;height:18px; margin-top:2px;float: left; margin-right: 5px;"></image>目录</view>
+<view style="margin-top:5px; font-weight: bold;">
+  <view style="margin-left: 10px;">一、团队设置</view>
+  <view style="margin-left: 10px;">二、用户管理</view>
+  <view style="margin-left: 10px;">三、巡检点设置</view>
+  <view style="margin-left: 10px;">四、巡检方式</view>
+  <view style="margin-left: 10px;">五、指定巡检人</view>
+  <view style="margin-left: 10px;">六、巡检记录</view>
+  <view style="margin-left: 10px;">七、巡检统计</view>
+</view>
+</view>
+
+<view id="detail4" style="width: 96%; margin-left: 2%;  line-height: 28px; padding: 10px 0; font-size: 14px;">
+<view style="font-weight: bold; font-size: 16px;">一、团队设置</view>
+<view>1、团队管理员拥有所有权限，团队创建者默认为管理员，可以在团队管理中更换管理员。</view>
+<view>2、管理员在团队管理中可邀请用户，设置和管理用户分组，设置用户权限、删除用户等权限。</view>
+<view style="text-align: center; margin-top:10px;"><image src="https://xj.tajian.cc/servers/image/teamset.png" mode="widthFix" style="width: 80%;"></image></view>
+<view style="font-weight: bold; font-size: 16px; margin-top:10px;">二、用户管理</view>
+<view>1、用户角色分为：普通、主管、管理员，普通用户拥有自己数据查阅权限，主管拥有所有数据查阅权限，管理员拥有所有数据管理权限。</view>
+<view style="font-weight: bold; font-size: 16px; margin-top: 20px;">三、巡检点设置</view>
+<view>1、编号，巡检点可设置编号，例如：XJ888，主要用于查询和生成巡检二维码。</view>
+<view>2、名称，巡检人区分巡检点，巡检统计时可通过巡检点名称搜索。</view>
+<view>3、分类，主要用于巡检点比较多时，可以按分类查找巡检点。</view>
+<view>4、图片，可以上传巡检点的实况图片，便于巡检人对照巡检点。</view>
+<view>5、说明，可以注明巡检点的介绍等，巡检流程，便于巡检人更好的理解巡检点情况等。</view>
+<view style="text-align: center;"><image src="https://xj.tajian.cc/servers/image/xjdset.png" mode="widthFix" style="width: 80%;"></image></view>
+<view>6、巡检项目，巡检项目清单，巡检人员根据此项目清单，逐条巡检正常与否，可收集单个项目信息。</view>
+<view style="text-align: center;"><image src="https://xj.tajian.cc/servers/image/xjdpro.png" mode="widthFix" style="width: 80%;"></image></view>
+<view>7、巡检周期，可设置巡检点的巡检周期频率，例如按天巡检，按周巡检、按月巡检，按季巡检，按年巡检等方式，可设置每次巡检的间隔时间，例如按天巡检，每天巡检2次，每次巡检间隔8小时。</view>
+<view style="text-align: center;"><image src="https://xj.tajian.cc/servers/image/xjzq.png" mode="widthFix" style="width: 80%;"></image></view>
+<view style="font-weight: bold; font-size: 16px; margin-top:10px;">四、巡检方式</view>
+<view>1、日常巡检，团队人员发现安全隐患随时随地上报，记录巡检时间、位置。</view>
+<view>2、二维码巡检，巡检人到达现场后扫码巡检，记录巡检时间、位置。</view>
+<view>3、蓝牙巡检，巡检人到达现场后，需打开蓝牙自动搜索附近巡检点开始巡检，记录巡检时间、位置。</view>
+<view>4、NFC巡检，巡检人到达现场后，需手机触碰NFC设备开始巡检，记录时间、位置。</view>
+<view style="text-align: center;"><image src="https://xj.tajian.cc/servers/image/xjfs.png" mode="widthFix" style="width: 80%;"></image></view>
+<view style="font-weight: bold; font-size: 16px; margin-top:10px;">五、指定巡检人</view>
+<view>1、可以设置每个巡检点对应的巡检人。</view>
+<view>2、巡检人可以在我的巡检点中，查看未完成的巡检，是否到了巡检时间等。</view>
+<view style="text-align: center;"><image src="https://xj.tajian.cc/servers/image/xjr.png" mode="widthFix" style="width: 80%;"></image></view>
+<view style="font-weight: bold; font-size: 16px; margin-top:10px;">六、巡检记录</view>
+<view>1、巡检结果，巡检时选择该巡检点是否正常，巡检项目清单是否正常。</view>
+<view>2、巡检异常的巡检记录，可做进一步处理，标识：已处理或者待处理。</view>
+<view>3、巡检记录导出，主管、管理员可以通过小程序将全部巡检记录导出到excel表中，普通用户只能导出自己的巡检记录，可导出巡检图片。</view>
+<view>4、巡检记录删除，管理员可以删除任何巡检记录。普通用户，可以删除自己5分钟内提交的巡检记录，超过5分钟后的巡检记录，不允许删除。</view>
+<view style="text-align: center;"><image src="https://xj.tajian.cc/servers/image/xjjl.png" mode="widthFix" style="width: 80%;"></image></view>
+<view style="font-weight: bold; font-size: 16px; margin-top: 10px;">七、巡检统计</view>
+<view>1、主管、管理员可按周期统计巡检记录，同一周期内巡检次数、巡检异常数、超时未巡检数。</view>
+<view>2、时间周期查询统计，可按：今日、昨日、上周、本周、本月、本季、本年等，或自定义查询时间段。</view>
+<view>3、可按巡检人查询统计。</view>
+<view>4、可按巡检点分类查询统计。</view>
+<view>4、可按巡检情况查询统计，例如正常、异常。</view>
+<view style="text-align: center;"><image src="https://xj.tajian.cc/servers/image/xjcx.png" mode="widthFix" style="width: 80%;"></image></view>
+</view>
+</view>

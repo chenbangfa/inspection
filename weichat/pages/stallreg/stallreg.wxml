@@ -1,0 +1,83 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="margin-top:{{height}}px; padding-bottom: 50px;width: 100%; float: left;">
+
+  <block wx:for="{{stallinfo}}" wx:key="index">
+  <view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; line-height:26px; margin-top:5px; float: left; padding:5px 0;">
+  <image src='https://xj.tajian.cc/servers/{{item.dropPhoto}}' style="width:70px; height:70px; margin: 5px; float: left;  "></image>
+  <view style="font-size: 18px; font-weight: bold; margin-left:5px;">{{item.dropName}}</view>
+  <view style="font-size: 14px;  margin-left:5px; ">摊位：共{{item.stallnum}}个，剩余{{tanwei}}个。</view>
+  <view data-add="{{item.addname}}" data-names="{{item.addname}}" data-lat="{{item.latitude}}" data-lon="{{item.longitude}}" style="font-size: 14px;  margin-left:5px; ">地址：{{item.addname}}<span class="arrow"></span></view>  
+</view>
+<view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; float: left; margin-top:5px;">
+  <view style="font-size: 14px;margin-left:5px;border-bottom: 1px solid #e6e6e6;line-height:40px;">开放时间：{{item.starttime}} - {{item.endtime}}</view>
+  <view style="font-size: 14px;margin-left:5px;border-bottom: 1px solid #e6e6e6;line-height:40px;">释放周期：{{item.exitzhouqi}} <span wx:if="{{item.exitzhouqi!='每天'}}">{{item.exitdate}}</span> {{item.exittime}}后，可登记摆摊。</view>
+  <view style="font-size: 14px;margin-left:5px;line-height:40px;">摊位说明：{{item.dropInfo}}</view>
+</view>
+<view wx:if="{{tanwei>0}}">
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">您的姓名：</span>
+  <view style="float:left;width: 75%; color: #111;">
+  <input placeholder="请输入联系人姓名" bindinput="inputWacth" data-input="hyName"/></view>
+</view>
+
+<view style=" width:100%;  font-size:14px; border-bottom:1px solid #e6e6e6; float: left; padding:10px 0;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">联系电话：</span>
+  <view style="float:left;width: 40%; color: #111;">
+  <input type="number" placeholder="请输入您的电话" bindinput="inputWacth" data-input="hyTel" value="{{hyTel}}"/></view>
+  <view style="float:right;color:#999;width: 30%;">
+  <button style="font-size: 14px; padding:0;width:80px; line-height: 24px; font-size: 12px; background-color: #e6e6e6; font-weight: normal;" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
+  </view>
+</view>
+
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">经营类目：</span>
+  <view style="float:left;width: 75%; color: #111;">
+  <radio-group bindchange="inputWacth" data-input="stalljyhy" >
+  <label style="width: 33%; float: left;"><radio value="小吃">小吃</radio></label>
+  <label style="width: 33%; float: left;"><radio value="玩具">玩具</radio></label>
+  <label style="width: 33%;float: left;"><radio value="日用品">日用品</radio></label>
+  <label style="width: 33%;float: left; margin-top: 10px;"><radio value="蔬菜水果">蔬菜水果</radio></label>
+  <label style="width: 33%;float: left; margin-top: 10px;"><radio value="蔬菜水果">服装鞋帽</radio></label>
+  <label style="width: 33%;float: left; margin-top: 10px;"><radio value="其他">其他</radio></label>
+  </radio-group>
+  </view>
+</view>
+
+<view wx:if="{{item.bmsfz==1}}" style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">身份证件：</span>
+  <view style="float:left;width: 70%; color: #111;">
+    <view style="width: 40%; float: left;" bindtap="bindUpload" data-sfzinfo="sfzzmimg">
+      <image src="https://xj.tajian.cc/servers/{{sfzzmimg}}" style="width: 100%; max-height: 80px;" mode="widthFix"></image>
+    </view>
+    <view style="width:40%; float: left; margin-left: 5%;" bindtap="bindUpload" data-sfzinfo="sfzfmimg">
+      <image src="https://xj.tajian.cc/servers/{{sfzfmimg}}" style="width: 100%; max-height: 80px;" mode="widthFix"></image>
+    </view>
+    </view>
+</view>
+
+<view wx:if="{{item.bmsfz==2}}" style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">营业执照：</span>
+  <view style="float:left;width: 70%; color: #111;">
+    <view style="width: 40%; float: left;" bindtap="bindUpload" data-sfzinfo="yyzzimg">
+      <image src="https://xj.tajian.cc/servers/{{yyzzimg}}" style="width: 100%; max-height: 80px;" mode="widthFix"></image>
+    </view>
+    </view>
+</view>
+
+<view wx:if="{{item.bmjygj==1}}" style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">经营工具：</span>
+  <view style="float:left;width: 70%; color: #111;">
+    <view style="width: 40%; float: left;" bindtap="bindUpload" data-sfzinfo="stallgj">
+      <image src="https://xj.tajian.cc/servers/{{stallgj}}" style="width: 100%; max-height: 80px;" mode="widthFix"></image>
+    </view>
+    </view>
+</view>
+<view style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%;float: left;">
+<button type="primary" bindtap="saveadd">登记</button>
+</view>
+</view>
+<view wx:else="" style="text-align: center; margin-top: 20px; float: left; width: 100%;">
+您来晚了，摊位已被抢光~
+</view>
+</block>
+</view>

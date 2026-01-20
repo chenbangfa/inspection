@@ -1,0 +1,40 @@
+page{background-color: #f9f9f9;}
+.arrow{
+ 
+  width: 8px;
+   
+  height: 8px;
+   
+  border-top: 1px solid #999;
+   
+  border-right: 1px solid #999;
+   
+  position: absolute;
+   
+  right: 50rpx;
+   
+  transform: rotate(45deg);
+   
+  margin-top:13rpx;
+   
+  }
+  .bodiv1{height:auto; float: left; width:90%;margin-left:5%;font-size:14px; }
+  .bodiv3{ padding:10px 5px; float: left; width: 100%; background-color: #fbfbfb; border-radius: 12px;margin-top: 5px;}
+  .bodivpic{width:40px;height:40px;float:left;}
+  .bodivtxt{float:left;color:#333; margin-left: 10px;}
+  .bodivinfo{float: right; margin-right:25px;color: #999; margin-top: 9px;}
+
+  
+.commodity_attr_box {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  background: #fff;
+  padding-top: 20rpx;
+  padding-top: 20rpx;
+  font-size: 16px;
+  color: #333;
+  z-index: 999;
+}

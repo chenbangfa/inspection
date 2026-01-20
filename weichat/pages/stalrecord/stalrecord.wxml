@@ -1,0 +1,32 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="float: left; width: 100%;margin-top:{{height}}px;  padding-bottom:80px; ">
+<view wx:for="{{odlist}}" wx:for-item="articles" wx:key="id" wx:for-index="id" style="float: left; width: 100%;">
+  <view wx:for="{{articles}}" wx:for-item="item" wx:key="id" wx:for-index="index" class="articles">
+  <navigator url="../stallreg/stallreg?scene={{item.id}}">
+    <view class="vpic">
+    <image src='https://xj.tajian.cc/servers/{{item.dropPhoto}}' class="pic" mode="aspectFill"></image>
+    </view> 
+    <view class="vtit">
+      <view class="tit">{{item.dropName }}</view>
+    </view>    
+  </navigator>
+    <view class="vinfo" style="line-height: 22px;">
+  <navigator url="../stallreg/stallreg?scene={{item.id}}">
+      <view class="vlist">摊位数量：共{{item.stallnum}}个</view>
+      <view class="vlist">开放时间：{{item.starttime}}-{{item.endtime}}</view>
+      <view class="vlist">地址：{{item.addname}}</view>
+      <view class="vlist" style="margin-top: 5px;">
+        <view class="vspan">登记时间：{{item.djtime}}</view> 
+      </view>
+      
+    </navigator>
+    </view>
+    <span class="arrow"></span>
+  </view>
+</view>
+
+<view class="vnodata" wx:if="{{isdata}}">
+<view>没有登记记录~</view>
+</view>
+</view>
+

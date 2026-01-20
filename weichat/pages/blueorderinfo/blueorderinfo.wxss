@@ -1,0 +1,38 @@
+/* pages/blueinspect/blueinspect.wxss */
+page{background-color: #f9f9f9;}
+.cshspan{border:1px solid #e6e6e6; border-radius: 3px; padding: 2px 5px; background-color: #e6e6e6; float: right; margin-right: 10px;}
+.zcspan{ border-radius: 3px; padding: 0px 3px; background-color: rgb(4, 115, 189); float: right; margin-right: 10px; color:#fff; font-size:14px;}
+.bzcspan{color: #f00; border-radius: 3px; padding:0px 3px; background-color: #f5d20e; float: right; margin-right: 10px; font-size:14px;}
+.vlist{width:100%; padding:10px 0; font-size:14px; border-bottom:1px solid #e6e6e6; float: left;}
+.vtit{float:left; font-weight:bold; color:#666;  width: 21%; padding-left: 10px; }
+.vcont{float:left;color:#666;width: 70%;}
+.vspan{float: right; font-size: 14px; padding: 2px 5px; background-color: #fad4b3; border-radius: 6px; color: #f00;margin-top: 5px; line-height: 25px; margin-top: 12px; }
+.arrow{
+ 
+  width: 6px;
+   
+  height: 6px;
+   
+  border-top: 1px solid #555;
+   
+  border-right: 1px solid #555;
+   
+  position: absolute;
+   
+   
+  transform: rotate(45deg);
+   
+  margin-top:7px;
+  margin-left: 3px;
+   
+  }
+  
+.commodity_attr_box {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  z-index: 999;
+}
+ 

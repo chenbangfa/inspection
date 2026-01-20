@@ -1,0 +1,41 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="width: 100%; float: left;" style="margin-top:{{height}}px;">
+<view style="font-size: 28px;margin: 20px 0 20px 10px; float: left;">Hi，快速创建您的团队！</view>
+
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">团队名称：</span>
+ <view style="float:left;color:#111;width: 75%;">
+  <input placeholder="请输入团队名称" bindinput="inputWacth" data-input="tName"/></view>
+</view>
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">您的姓名：</span>
+  <view style="float:left;color:#111;width: 75%;">
+  <input placeholder="请输入联系人姓名" bindinput="inputWacth" data-input="hyName"/></view>
+</view>
+
+<view style=" width:100%;  font-size:14px; border-bottom:1px solid #e6e6e6; float: left; padding:10px 0;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">联系电话：</span>
+  <view style="float:left;color:#111;width: 40%; ">
+  <input type="number" placeholder="请输入您的电话" bindinput="inputWacth" data-input="hyTel" value="{{hyTel}}"/></view>
+  <view style="float:right;color:#999;width: 30%; ">
+  <button style="font-size: 14px; padding:0;width:80px; line-height: 24px; font-size: 12px; background-color: #e6e6e6; font-weight: normal;" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
+  </view>
+</view>
+
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">登录密码：</span>
+ <view style="float:left;color:#111;width: 75%;">
+  <input type="password" placeholder="请输入登录密码" bindinput="inputWacth" data-input="hyPwd"/></view>
+</view>
+
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">确认密码：</span>
+ <view style="float:left;color:#111;width: 75%;">
+  <input type="password" placeholder="请再次输入登录密码" bindinput="inputWacth" data-input="rePwd"/></view>
+</view>
+
+</view>
+
+<view style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%;float: left;">
+<button type="primary" bindtap="saveadd">创建团队</button>
+</view>

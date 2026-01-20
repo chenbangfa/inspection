@@ -1,0 +1,73 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="width: 100%; float: left;" style="margin-top:{{height}}px;">
+<view style="font-size: 28px;margin: 20px 0 20px 10px; float: left;">Hi，欢迎您加入！</view>
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">团队名称：</span>
+  <view style="float:left;width: 75%; color: #111;">{{tName}}</view>
+</view>
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">主体类型：</span>
+  <view style="float:left;width: 75%; color: #111;">
+<radio-group bindchange="typechange">
+  <label style="width: 30%; margin-left:2%;float: left;"><radio value="0" checked="true">个人</radio></label>
+  <label style="width: 30%; margin-left:2%;float: left;"><radio value="1">企业</radio></label>
+  </radio-group></view>
+</view>
+
+<view wx:if="{{types==1}}" style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">营业执照：</span>
+  <view style="float:left;width: 75%; color: #111;">
+    <view style="width: 23%; float: left;" bindtap="bindUpload">
+      <image src="https://xj.tajian.cc/servers/{{imgurl}}" style="width: 100%;" mode="widthFix"></image>
+    </view>
+    </view>
+</view>
+
+<view wx:if="{{imgurl!='image/addpic.png'&&types==1}}">
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">公司名称：</span>
+  <view style="float:left;width: 75%; color: #111;">
+  <input placeholder="请输入公司名称" bindinput="inputWacth" data-input="gsname" value="{{gsname}}"/></view>
+</view>
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">信用代码：</span>
+  <view style="float:left;width: 75%; color: #111;">
+  <input placeholder="请输入社会信用代码" bindinput="inputWacth" data-input="daima" value="{{daima}}"/></view>
+</view>
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">注册地址：</span>
+  <view style="float:left;width: 75%; color: #111;">
+  <input placeholder="请输入公司注册地址" bindinput="inputWacth" data-input="address" value="{{address}}"/></view>
+</view>
+</view>
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">您的姓名：</span>
+  <view style="float:left;width: 75%; color: #111;">
+  <input placeholder="请输入联系人姓名" bindinput="inputWacth" data-input="hyName"/></view>
+</view>
+
+<view style=" width:100%;  font-size:14px; border-bottom:1px solid #e6e6e6; float: left; padding:10px 0;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">联系电话：</span>
+  <view style="float:left;width: 40%; color: #111;">
+  <input type="number" placeholder="请输入您的电话" bindinput="inputWacth" data-input="hyTel" value="{{hyTel}}"/></view>
+  <view style="float:right;color:#999;width: 30%;">
+  <button style="font-size: 14px; padding:0;width:80px; line-height: 24px; font-size: 12px; background-color: #e6e6e6; font-weight: normal;" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
+  </view>
+</view>
+
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">登录密码：</span>
+  <view style="float:left;width: 75%; color: #111;">
+  <input type="password" placeholder="请输入登录密码" bindinput="inputWacth" data-input="hyPwd"/></view>
+</view>
+
+<view style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#666;  width: 20%; margin-left: 10px;">确认密码：</span>
+  <view style="float:left;width: 75%; color: #111;">
+  <input type="password" placeholder="请再次输入登录密码" bindinput="inputWacth" data-input="rePwd"/></view>
+</view>
+</view>
+
+<view style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%;float: left;">
+<button type="primary" bindtap="saveadd">申请加入</button>
+</view>

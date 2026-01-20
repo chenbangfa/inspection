@@ -1,0 +1,86 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/stallreg/stallreg",
+    "pages/register/register",
+    "pages/myinfo/myinfo",
+    "pages/login/login",
+    "pages/hycenter/hycenter",
+    "pages/blueinspect/blueinspect",
+    "pages/teamadd/teamadd",
+    "pages/welcome/welcome",
+    "pages/teaminfo/teaminfo",
+    "pages/bluelist/bluelist",
+    "pages/blueadd/blueadd",
+    "pages/blueedit/blueedit",
+    "pages/blueget/blueget",
+    "pages/bluebind/bluebind",
+    "pages/blueorder/blueorder",
+    "pages/blueorderinfo/blueorderinfo",
+    "pages/blueinfo/blueinfo",
+    "pages/bluegroup/bluegroup",
+    "pages/mybluedro/mybluedro",
+    "pages/timeout/timeout",
+    "pages/blueabnormal/blueabnormal",
+    "pages/bluecount/bluecount",
+    "pages/help/help",
+    "pages/inspectset/inspectset",
+    "pages/stall/stall",
+    "pages/stalladd/stalladd",
+    "pages/stallinfo/stallinfo",
+    "pages/inspectinfo/inspectinfo",
+    "pages/inspect/inspect",
+    "pages/inspectlist/inspectlist",
+    "pages/inspectgroup/inspectgroup",
+    "pages/stalrecord/stalrecord",
+    "pages/stalledit/stalledit",
+    "pages/stallcount/stallcount"
+  ],
+  "requiredPrivateInfos": [
+    "chooseLocation",
+    "getLocation"
+  ],
+  "plugins": {
+    "ocr-plugin": {
+      "version": "3.1.7",
+      "provider": "wx4418e3e031e551be"
+    }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于定位巡检"
+    }
+  },
+  "window": {
+    "backgroundColor": "#f2f2f2",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "custom": false,
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "image/home.png",
+        "selectedIconPath": "image/homeon.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/mybluedro/mybluedro",
+        "iconPath": "image/jz.png",
+        "selectedIconPath": "image/jzon.png",
+        "text": "我的巡检"
+      },
+      {
+        "pagePath": "pages/hycenter/hycenter",
+        "iconPath": "image/hy.png",
+        "selectedIconPath": "image/hyon.png",
+        "text": "工作台"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

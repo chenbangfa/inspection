@@ -1,0 +1,132 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="width: 100%; float: left;" style="margin-top:{{height}}px;">
+  <view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; line-height:26px; margin-top:5px; float: left;">
+  <image src='https://xj.tajian.cc/servers/{{dropPhoto}}' style="width:70px; height:70px; margin: 5px; float: left;  "></image>
+  <view style="font-size: 18px; font-weight: bold; margin-left:5px;">{{dropName}}</view>
+  <view style="font-size: 16px;  margin-left:5px; ">编号：{{dropNo}}</view>
+  <view style="font-size: 16px;  margin-left:5px; ">分类：{{gName}}</view>
+</view>
+
+<view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #f9ac52;background-color: #f9ac52;float: left; margin-top:5px; padding:5px 0; color: #333;">
+<view style="float: left; width:60%;">
+  <view style="font-size: 14px;margin-left:5px; font-weight: bold;">{{zqvalue}}巡检{{xjnum }}次，每次间隔{{xjjgtime}}{{zqvalue=="每天"?"小时":"天"}}</view>
+  <view style="font-size: 14px;  margin-left:5px;margin-top:5px;">已巡检{{xjcount}}次，最近巡检时间</view>
+  <view style="font-size: 14px;  margin-left:5px;margin-top:5px;">{{addTime==""?"还没有巡检过~":addTime}}</view>
+</view>
+  <view style="float: right; width:35%; text-align: center;border:1px solid #e6e6e6; border-radius:6px; background-color: #fff; padding: 10px 0; margin-right: 5px; margin-top:2px;">
+  <view>{{hyName==""?"无":hyName}}</view>
+  <view style="color: #999;margin-top:5px;">最近巡检人</view>
+  </view>
+</view>
+
+<view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; line-height:40px;float: left; margin-top:5px;">
+  <view style="font-size: 16px; font-weight: bold; margin-left:5px;border-bottom: 1px solid #e6e6e6;">备注</view>
+  <view style="font-size: 16px;  margin-left:5px; ">{{dropInfo}}</view>
+</view>
+<view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; float: left; margin-top:5px;">
+  <view style="font-size: 16px; font-weight: bold; margin-left:5px;border-bottom: 1px solid #e6e6e6; line-height:40px;">巡检</view>
+
+
+<view wx:for="{{bluePro}}" wx:key="index" style=" width:100%; padding:10px 0; font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <view bindtap="probind" data-id="{{index}}" style="float:left;  color:#473436;  width:65%; margin-left: 10px;">{{item.proName}}<span class="arrow"></span></view> 
+  <view style="float:right;width:30%;">
+ <span class="{{item.abnormal}}" bindtap="ycbind" data-id="{{index}}">异常</span>
+ <span class="{{item.normal}}" bindtap="zcbind" data-id="{{index}}">正常</span>
+  </view>  
+  <view style="float:left;  color:#999;  width:96%; margin-left: 10px;" bindtap="probind" data-id="{{index}}">{{item.msg}}</view> 
+</view>
+
+<view wx:if="{{states!=1}}" style=" width:100%; margin-top:10px; font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; font-weight:bold; color:#473436;  width: 25%; padding-left: 10px;">巡检备注：</span>
+  <view style="float:left;color:#666;width: 70%;">
+  <textarea placeholder="请输入巡检说明" bindinput="inputWacth" data-input="odInfo" style="height: 60px;"></textarea></view>
+</view>
+
+<view wx:if="{{states!=1}}" style=" width:100%; margin-top:10px; font-size:14px; border-bottom:1px solid #e6e6e6; float: left; ">
+  <span style="float:left; font-weight:bold; color:#473436;  width: 25%; padding-left: 10px;">巡检人员：</span>
+  <view style="float:left;color:#666;width: 70%; min-height: 30px;">{{xjName}}</view>
+</view>
+<view wx:if="{{states!=1}}" style=" width:100%; margin-top:10px; font-size:14px; border-bottom:1px solid #e6e6e6; float: left; ">
+  <span style="float:left; font-weight:bold; color:#473436;  width: 25%; padding-left: 10px;">随检人员：</span>
+  <view style="float:left;color:#666;width: 70%; min-height: 30px;" bindtap="getpeople">{{odtogether}}</view>
+</view>
+<view wx:if="{{isphoto==1}}" style=" width:100%; margin-top:10px; font-size:14px; float: left; border-bottom:1px solid #e6e6e6; ">
+  <span style="float:left; font-weight:bold; color:#473436;  width: 25%; padding-left: 10px;">巡检照片：</span>
+  <view style="width: 70%; float: left; padding-bottom: 5px;">
+  <view wx:if="{{imgs.length>0}}" wx:for="{{imgs}}" wx:key="item" style="width: 23%; float: left; margin-right: 3px; ">
+    <view bindtap='deleteImg' data-index="{{index}}">
+      <image src="https://xj.tajian.cc/servers/{{item}}" style="width: 100%; min-height:65px; max-height: 100px;" mode="widthFix"></image>
+      </view>
+    </view>
+    <view style="width: 23%; float: left;" wx:if="{{imgs.length >= 3 ? false : true}}" bindtap="bindUpload">
+      <image src="https://xj.tajian.cc/servers/image/addpic.png" style="width: 100%;" mode="widthFix"></image>
+    </view>
+  </view>
+</view>
+<view wx:if="{{issfz==2}}" style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#473436;  width: 25%; margin-left: 10px; font-weight: bold;">营业执照：</span>
+  <view style="float:left;width: 70%; color: #111;">
+    <view style="width:40%; float: left;" bindtap="yyzzUpload">
+      <image src="https://xj.tajian.cc/servers/{{imgurl}}" style="width: 100%;" mode="widthFix"></image>
+    </view>
+    </view>
+</view>
+<view wx:if="{{issfz==1}}" style=" width:100%;  padding:10px 0;font-size:14px; border-bottom:1px solid #e6e6e6; float: left;">
+  <span style="float:left; color:#473436;  width: 25%; margin-left: 10px; font-weight: bold;">身份证件：</span>
+  <view style="float:left;width: 70%; color: #111;">
+    <view style="width: 40%; float: left;" bindtap="sfzUpload">
+      <image src="https://xj.tajian.cc/servers/{{sfzzm}}" style="width: 100%;" mode="widthFix"></image>
+    </view>
+    <view style="width:40%; float: left; margin-left: 5%;" bindtap="sfzUpload">
+      <image src="https://xj.tajian.cc/servers/{{sfzfm}}" style="width: 100%;" mode="widthFix"></image>
+    </view>
+    </view>
+</view>
+
+</view>
+<view wx:if="{{isaddress==1}}" style=" width:96%;padding: 5px 0; font-size:14px;float: left; background-color: #e9e9e9; margin-left: 2%; border-radius: 6px; margin-top: 10px; margin-bottom: 10px; font-size:16px; color: #555;">
+  <image src='../../image/wz.png' style="width: 18px; height:18px; margin-right: 5px; float: left; margin-top:2px; margin-left: 6px;"></image>
+  {{hyaddress}}
+</view>
+
+</view>
+<view wx:if="{{states!=1}}" style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%; padding-bottom: 50px; float: left;">
+<button type="primary" bindtap="savedongtai" wx:if="{{clickFlag}}">提交</button>
+<button type="default" wx:else>提交</button>
+</view>
+<view wx:else="" style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%; padding-bottom: 50px;">
+<button type="default">未到巡检时间{{states}}</button>
+</view>
+
+
+<view class="commodity_screen" bindtap="hideModalbz" wx:if="{{ycshow}}" catchtouchmove="stopTouch"></view>
+<view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{ycshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;" bindtap="hideModalbz">巡检说明</span >
+<view style=" float: right; margin-right: 10px;" bindtap="closeycshow"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style="overflow-y: scroll;height: 190px; float: left; width: 100%;background-color: #fff; ">
+  <textarea placeholder="请输入巡检说明~" auto-focus style="padding:5px 2px; width:93%; margin-left:3%;  border: 1px solid #e6e6e6; margin-top: 10px; border-radius:3px;" value="{{xjmsg}}" bindinput="inputWacth" data-input="xjmsg"/>
+</view>
+<view style="width:100%;  text-align: center; padding-bottom: 20px;background-color: #fff; float: left;">
+<button type="primary" bindtap="savemsg" style="width: 50%;">确定</button>
+</view>
+</view>
+
+<view class="commodity_screen" wx:if="{{peopleshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{peopleshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">选择随检人员</span >
+<view style=" float: right; margin-right: 10px;" bindtap="hidepepple"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; line-height: 36px;">
+  <checkbox-group bindchange="peoplechange">
+  <label wx:for="{{people}}" wx:key="index" style="width: 30%; margin-left:2%;float: left;">
+  <checkbox value="{{index}}">{{item.hyName}}</checkbox>
+  </label>
+  </checkbox-group>
+</view>
+<view style="width:100%;  text-align: center; padding-bottom: 20px;background-color: #fff; float: left; padding-top:20px;  border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+<button type="primary" bindtap="hidepepple" style="width:50%;">确定</button>
+</view>
+</view>

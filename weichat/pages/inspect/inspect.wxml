@@ -1,0 +1,125 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="width: 100%; float: left;" style="margin-top:{{height+10}}px;">
+
+  <view class="vlist" bindtap="showteam">
+  <span  class="vtit">当前团队：</span>
+  <view  class="vcont">
+  <span>{{tName}}</span>
+  </view>
+  <span class="arrow"></span>
+</view>
+<view class="vlist">
+  <span  class="vtit">巡检对象：</span>
+  <view  class="vcont">
+  <input placeholder="请输入巡检对象" bindinput="inputWacth" data-input="gsName" value="{{gsName}}"/>
+  </view><span style="color: red; ">*</span>
+</view>
+<view class="vlist">
+  <span  class="vtit">隐患位置：</span>
+  <view  class="vcont">
+  <input placeholder="请输入隐患位置" bindinput="inputWacth" data-input="yhAdd" value="{{yhAdd}}"/>
+  </view><font style="color: red;">*</font> 
+</view>
+<view class="vlist">
+  <span  class="vtit">隐患部位：</span>
+  <view  class="vcont">
+  <textarea placeholder="请输入隐患部位" bindinput="inputWacth" data-input="yhPosition" style="width: 100%; height: 60px;" value="{{yhPosition}}"></textarea>
+  </view><font style="color: red;">*</font>
+</view>
+<view class="vlist">
+  <span  class="vtit">隐患内容：</span>
+  <view  class="vcont">
+  <textarea placeholder="请输入隐患内容" bindinput="inputWacth" data-input="yhContent" style="height: 60px;width: 100%;"></textarea></view><font style="color: red;">*</font>
+</view>
+<view class="vlist" bindtap="getzylist">
+  <span  class="vtit">隐患分类：</span>
+  <view  class="vcont">
+  <span>{{yhSpeciality}}</span>
+  </view>
+  <span class="arrow"></span>
+</view>
+<view class="vlist" bindtap="getpeople">
+  <span  class="vtit">随检人员：</span>
+  <view class="vcont">
+  <span wx:if="{{together==''}}">请选择随检人员</span>
+  <span wx:for="{{together}}" wx:key="index">{{item}}</span>
+  </view>
+  <span class="arrow"></span>
+</view>
+<view class="vlist">
+  <span  class="vtit">隐患照片：</span>
+  <view style="width: 75%; float: left; padding-bottom: 5px;">
+  <view wx:if="{{imgs.length>0}}" wx:for="{{imgs}}" wx:key="item" style="width: 23%; float: left; margin-right: 3px; ">
+    <view bindtap='deleteImg' data-index="{{index}}">
+      <image src="https://xj.tajian.cc/{{item}}" style="width: 100%; min-height:65px; max-height: 100px;" mode="widthFix"></image>
+      </view>
+    </view>
+    <view style="width: 23%; float: left;" wx:if="{{imgs.length >= 3 ? false : true}}" bindtap="bindUpload">
+      <image src="https://xj.tajian.cc/servers/image/addpic.png" style="width: 100%;" mode="widthFix"></image>
+    </view><font style="color: red;">*</font>
+  </view>
+</view>
+
+</view>
+
+<view style="width:96%;font-size:14px;float: left; background-color: #e9e9e9; margin-left: 2%; border-radius: 6px; margin-top: 10px; margin-bottom: 10px; font-size:16px; color: #555;padding: 5px 0;" bindtap="getuseradds">
+  <image src='../../image/wz.png' style="width: 18px; height:18px; margin-right: 5px; float: left; margin-left: 6px; margin-top:2px;"></image>
+  {{posAdd}}
+</view>
+
+<view style="margin-top: 20px; width: 80%; text-align: center; margin-left: 10%; padding-bottom: 50px;">
+<button type="primary" bindtap="save" wx:if="{{clickFlag}}">提交</button>
+<button type="default" wx:else>提交</button>
+</view>
+
+<view class="commodity_screen" wx:if="{{editshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{editshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">选择随检人员</span >
+<view style=" float: right; margin-right: 10px;" bindtap="hideeditshow"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; line-height: 36px;">
+  <checkbox-group bindchange="peoplechange">
+  <label wx:for="{{people}}" wx:key="index" style="width: 30%; margin-left:2%;float: left;">
+  <checkbox value="{{item.hyName}}" checked="{{item.ischeck}}">{{item.hyName}}</checkbox>
+  </label>
+  </checkbox-group>
+</view>
+<view style="width:100%;  text-align: center; padding-bottom: 20px;background-color: #fff; float: left; padding-top:20px;  border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+<button type="primary" bindtap="hideeditshow" style="width:50%;">保存</button>
+</view>
+</view>
+<view class="commodity_screen" wx:if="{{zyshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{zyshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">选择隐患分类</span >
+<view style=" float: right; margin-right: 10px;" bindtap="hidezyshow"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; line-height: 36px;">
+  <radio-group bindchange="zychange">
+  <label wx:for="{{zylist}}" wx:key="index" style="width: 30%; margin-left:2%;float: left;">
+  <radio value="{{item.gName}}">{{item.gName}}</radio>
+  </label>
+  </radio-group>
+</view>
+<view style="width:100%;  text-align: center; padding-bottom: 20px;background-color: #fff; float: left; padding-top:20px;  border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+<button type="primary" bindtap="hidezyshow" style="width:30%; line-height:36px; font-size: 16px;">保存</button>
+</view>
+</view>
+
+<view class="commodity_screen" wx:if="{{teamshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{teamshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">团队查询</span >
+<view style=" float: right; margin-right: 10px;" bindtap="hideteam"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; line-height: 36px;">
+  <radio-group bindchange="teamchange">
+  <label wx:for="{{teamlist}}" wx:key="index" style="width: 100%; margin-left:2%;float: left;">
+  <radio value="{{item.tId}}" checked="{{item.tId==tid?true:false}}">{{item.tName}}</radio>
+  </label>
+  </radio-group>
+</view>
+<view style="width:100%;  text-align: center; padding-bottom: 10px;background-color: #fff; float: left; padding-top:10px;  border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+</view>
+</view>

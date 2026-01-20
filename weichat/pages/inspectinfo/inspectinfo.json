@@ -1,0 +1,5 @@
+{ "navigationBarTitleText": "动态详情",
+  "usingComponents": {
+    "nav-bar": "/nvabar/nvabar"
+  }
+}

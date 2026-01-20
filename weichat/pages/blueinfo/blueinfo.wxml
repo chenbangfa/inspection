@@ -1,0 +1,89 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view style="margin-top:{{height}}px; padding-bottom:150px;width: 100%; float: left;">
+  <view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; line-height:26px; margin-top:5px; float: left; padding:5px 0;">
+  <image src='https://xj.tajian.cc/servers/{{dropPhoto}}' style="width:70px; height:70px; margin: 5px; float: left;  "></image>
+  <view style="font-size: 18px; font-weight: bold; margin-left:5px;">{{dropName}}</view>
+  <view style="font-size: 16px;  margin-left:5px; ">编号：{{dropNo}}</view>
+  <view style="font-size: 16px;  margin-left:5px; ">分类：{{gName}}</view>
+</view>
+
+<view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #f9ac52;background-color: #f9ac52;float: left; margin-top:5px; padding:5px 0; color: #333;">
+<view style="float: left; width:60%;">
+  <view style="font-size: 14px;margin-left:5px; font-weight: bold;">{{zqvalue}}巡检<span style="color: red;">{{xjnum }}</span>次，每次间隔<span style="color: red;">{{xjjgtime}}</span>{{zqvalue=="每天"?"小时":"天"}}</view>
+  <view style="font-size: 14px;  margin-left:5px;margin-top:5px;">已巡检{{xjcount}}次{{addTime==""?"":"，最近巡检时间"}}</view>
+  <view style="font-size: 14px;  margin-left:5px;margin-top:5px;">{{addTime==""?"还没有巡检过~":addTime}}</view>
+</view>
+  <view style="float: right; width:35%; text-align: center;border:1px solid #e6e6e6; border-radius:6px; background-color: #fff; padding: 10px 0; margin-right: 5px; margin-top:2px;" bindtap="peoplebind">
+  <view>{{hyAppointName==""?"去设置":hyAppointName}}</view>
+  <view style="color: #999;margin-top:5px;">巡检人{{hyAppointName==""?"未设":""}} <span class="arrow"></span></view>
+  </view>
+</view>
+
+<view wx:if="{{timelist.length>0}}" style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; float: left; margin-top:5px;">
+  <view style="font-size: 14px; font-weight: bold; margin-left:5px; margin-top: 10px;">巡检日历</view>
+  <block wx:for="{{timelist}}" wx:key="index">
+<view class="viewtime" style="background-color:#fff; color: #333;" bindtap="yuyuetime" data-idx="{{idx}}" data-index="{{index}}" data-cdid="{{articles.id}}" data-state="{{item.state}}" data-time="{{item.times}}" data-money="{{item.money}}">
+<view style="border-bottom: 1px solid #d1d1d1; font-size: 14px;">{{item.month}}-{{item.day}}</view>
+<view style="font-size: 12px;">巡<span style="font-size: 18px; color: {{item.xjnum>0?'red':'066fb4'}};">{{item.xjnum}}</span>次</view>
+</view>
+  </block>
+</view>
+<view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; float: left; margin-top:5px;">
+  <view style="font-size: 14px; font-weight: bold; margin-left:5px;border-bottom: 1px solid #e6e6e6;line-height:40px;">备注</view>
+  <view style="font-size: 14px;  margin-left:5px; line-height:24px; margin-bottom:5px; ">{{dropInfo}}</view>
+</view>
+<view style="width: 96%; margin-left: 2%; border-radius: 6px; border: 1px solid #e9e9e9;background-color: #fff; float: left; margin-top:5px;">
+  <view style="font-size: 14px; font-weight: bold; margin-left:5px;line-height:40px;">巡检项目</view>
+<view wx:for="{{bluePro}}" wx:key="index" style=" width:100%; padding:10px 0; font-size:14px; border-top:1px solid #e6e6e6; float: left;">
+  <view style="float:left;  color:#473436;  width:95%; margin-left: 10px;">{{item.proName}}</view>  
+</view>
+</view>
+
+
+
+
+
+</view>
+
+
+<view class="commodity_screen" wx:if="{{editshow}}"></view>
+<view class="commodity_attr_box" wx:if="{{editshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">选择巡检人员</span >
+<view style=" float: right; margin-right: 10px;" bindtap="hideeditshow"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+<view style=" float: left; width: 100%;background-color: #fff; line-height: 36px;">
+  <checkbox-group bindchange="peoplechange">
+  <label wx:for="{{people}}" wx:key="index" style="width: 30%; margin-left:2%;float: left;">
+  <checkbox value="{{index}}">{{item.hyName}}</checkbox>
+  </label>
+  </checkbox-group>
+</view>
+<view style="width:100%;  text-align: center; padding-bottom: 20px;background-color: #fff; float: left; padding-top:20px;  border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+<button type="primary" bindtap="peoplesave" style="width:50%;">保存</button>
+</view>
+</view>
+
+
+<view class="commodity_screen" bindtap="hideModalbz" wx:if="{{ycshow}}" catchtouchmove="stopTouch"></view>
+<view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{ycshow}}" style="top:{{height}}px; background-color: #f1f1f1;">
+<view style=" padding-bottom: 10px; font-size: 16px; width: 100%; float: left;">
+<span style="float: left; margin-left: 10px; font-size: 16px;">巡检二维码</span >
+<view style=" float: right; margin-right: 10px;" bindtap="closeycshow"><image src="../../image/close.png" style="width: 20px; height:20px;"/></view>
+</view>
+
+<view style="text-align: center;background-color: #fff;width: 100%; margin-top:30px;">
+<view style="margin:0 auto; width:320px; height:320px;">
+  <canvas canvas-id='canvas' style=" width:320px; height:320px;"></canvas>
+</view>
+</view>
+<view style="width:100%;  text-align: center; padding: 20px 0;background-color: #fff; float: left; border-radius: 12px;">
+<button type="primary" bindtap="handleImgSave" style="width: 50%;">保存二维码</button>
+</view>
+</view>
+
+<view wx:if="{{hyIdentity>0}}" style="height:50px; float:left;width: 100%;position: fixed;bottom: 0px; border-top: 1px solid #e6e6e6; padding: 10px 0; z-index: 999; background-color: #fff; bottom: 0; z-index: 111;">
+<navigator url="../blueedit/blueedit?id={{id}}"><view class="buttonewm" style="width:25%; margin-right: 5%; background-color: bisque;">编辑</view></navigator>
+<view class="buttonewm" bindtap="getcode"  style="width:25%;margin-right: 5%; background-color: #3ccbda; color: #fff;">二维码</view>
+<view class="buttonewm" bindtap="delstall" style="width:30%; margin-right: 5%; background-color:#e9e9e9">删除</view>
+</view>

@@ -1,0 +1,39 @@
+/* pages/dtlist/dtlist.wxss */
+page{background-color: #f9f9f9;}
+
+.dataspan{width: 22%;float: left;background-color: #f9f9f9; text-align: center; margin-left: 3%;margin-top:10px;}
+.closespan{ background-color: #fad4b3; padding:2px 10px; border-radius: 6px; margin-left: 10px; font-size: 12px;}
+.searchspan{padding:5px 10px; background-color: #e9e9e9; border-radius: 3px;margin-left:2%; float: left;}
+.searchview{width: 98%;  float: left; font-size: 14px; color: #333;position: fixed; background-color: #f9f9f9; padding: 10px 0;}
+.searchshow{margin-left:1%;margin-top:45px; float: left; width:99%; font-size: 14px; background-color: #fff; line-height: 24px; color: #333; padding-bottom: 5px;}
+.sbutton{width:100%;  text-align: center; padding-bottom: 20px;background-color: #fff; float: left; padding-top:20px;  border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;}
+.commodity_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #999;
+  opacity: 0.9;
+  overflow: hidden;
+  z-index: 999;
+  color: #fff;
+}
+
+.commodity_attr_box {
+  width: 96%;
+  margin-left: 2%;
+  margin-top: 10px;
+  position: fixed;
+  border-radius: 12px;
+  background: #fff;
+  padding-top: 20rpx;
+  font-size: 14px;                            
+  color: #333;
+  z-index: 999;
+}
+
+.viewtit{text-align: center; font-size: 18px; font-weight: bold; margin:5px 0; color: #333;}
+.viewtime{text-align: center; float: left;width:13.2%; background-color:  rgb(4, 115, 189); padding:5px 0; margin-left:1%; color: #fff;font-size: 18px; margin-top: 10px;}
+.viewtimeno{ background-color: #ff8f00;}
+.viewtimeyes{ background-color: #f00; color: #fff;}
