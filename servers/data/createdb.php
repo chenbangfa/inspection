@@ -140,7 +140,7 @@ $sql = "CREATE TABLE blueInspect (
   hyAppoint varchar(100) DEFAULT NULL COMMENT '指定巡检人ID(多)', 
   hyAppointName varchar(500) DEFAULT '' COMMENT '指定巡检人姓名',  
   issfz int(11) NOT NULL DEFAULT '0' COMMENT '是否验证身份证',
-  isxjfs int(11) NOT NULL DEFAULT '0' COMMENT '巡检方式',
+  isxjfs int(11) NOT NULL DEFAULT '0' COMMENT '巡检方式：0手动巡检；1扫码巡检；2蓝牙巡检',
   isaddress int(11) NOT NULL DEFAULT '0' COMMENT '是否校验地址',
   isphoto int(11) NOT NULL DEFAULT '0' COMMENT '是否必须拍照',
   drores int(11) NOT NULL DEFAULT '0' COMMENT '最后一次结果:0正常1异常',  

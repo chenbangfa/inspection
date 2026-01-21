@@ -656,7 +656,7 @@ switch ($tag) {
 			$xjcount = $row["inspectNum"];
 			$addTime = $row["inspectTime"] == null ? "" : $row["inspectTime"];
 			$hyName = $row["inspectName"];
-			$odlist[] = array("id" => $row["id"], "xjcount" => $xjcount, "xjtit" => $xjtit, "dropName" => $row["dropName"], "dropNo" => $row["dropNo"], "dropClass" => $row["dropClass"], "patrolCycle" => $row["patrolCycle"], "patrolNum" => $row["patrolNum"], "patrolDiff" => $row["patrolDiff"], "deviceId" => $row["deviceId"], "dropPhoto" => $hypic, "addTime" => $addTime, "hyName" => $hyName, "hyAppointName" => $row["hyAppointName"]);
+			$odlist[] = array("id" => $row["id"], "isxjfs" => $row["isxjfs"], "xjcount" => $xjcount, "xjtit" => $xjtit, "dropName" => $row["dropName"], "dropNo" => $row["dropNo"], "dropClass" => $row["dropClass"], "patrolCycle" => $row["patrolCycle"], "patrolNum" => $row["patrolNum"], "patrolDiff" => $row["patrolDiff"], "deviceId" => $row["deviceId"], "dropPhoto" => $hypic, "addTime" => $addTime, "hyName" => $hyName, "hyAppointName" => $row["hyAppointName"]);
 		}
 
 		$results = $db->getAll("blueGroup", "tid='$tid'", "gSort asc");
@@ -1723,6 +1723,24 @@ switch ($tag) {
 			$resV = '{"code":"200","msg":"分配成功"}';
 		} else {
 			$resV = '{"code":"400","msg":"未选择记录"}';
+		}
+		break;
+	case "update_rectification":
+		$id = $db->getPar("id");
+		$zgPhoto = $db->getPar("zgPhoto");
+		$zgInfo = $db->getPar("zgInfo");
+		$zgState = $db->getPar("zgState");
+
+		// Validation? 
+		if ($id != "") {
+			$tab = "inspect";
+			// zgState=2 means "Completed" (已整改)
+			$col = "zgPhoto='$zgPhoto',zgInfo='$zgInfo',zgState='$zgState'";
+			$val = "id='$id'";
+			$res = $db->editRecode($tab, $col, $val);
+			$resV = '{"st":"1"}';
+		} else {
+			$resV = '{"st":"0","msg":"参数错误"}';
 		}
 		break;
 

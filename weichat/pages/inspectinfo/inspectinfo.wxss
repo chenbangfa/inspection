@@ -88,19 +88,88 @@ page {
 .photo-grid {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 
-.grid-photo {
-  width: 31%;
-  height: 80px; /* or auto with aspect ratio hack, but fixed height is safer for grids */
-  margin-right: 2%;
+/* Updated for 4 items per row */
+.photo-wrap, .add-photo {
+  width: 23%;
+  height: 80px;
+  margin-right: 2.66%; 
   margin-bottom: 10px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.photo-wrap:nth-child(4n), .add-photo:nth-child(4n) {
+  margin-right: 0;
+}
+
+/* Also support direct images (for read-only view) usually 3 per row is fine there, but let's consistency */
+.grid-photo {
+  width: 100%;
+  height: 100%;
   border-radius: 4px;
   background-color: #eee;
+  display: block;
 }
 
-.grid-photo:nth-child(3n) {
-  margin-right: 0;
+/* Specific override for the read-only view if it doesn't use photo-wrap */
+/* Actually, the read-only view uses direct .grid-photo class on image.
+   We should check if we broke the read-only view. 
+   The read-only view WXML: 
+   <block wx:for="{{item.hypic}}" ...>
+      <image ... class="grid-photo" ...></image>
+   </block>
+   So .grid-photo needs to be a flex item there.
+   Let's add a rule: .photo-grid > .grid-photo (direct child) gets width.
+*/
+
+.photo-grid > .grid-photo {
+    width: 31%; /* Keep 3 per row for display? Or 4? Let's use 3 as before for display to be safe, or 3 for consistency */
+    height: 80px;
+    margin-right: 3.5%;
+    margin-bottom: 10px;
+}
+
+.photo-grid > .grid-photo:nth-child(3n) {
+    margin-right: 0;
+}
+
+/* Override for usage inside photo-wrap */
+.photo-wrap .grid-photo {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.add-photo {
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+}
+
+.add-photo image {
+  width: 40px;
+  height: 40px;
+}
+
+.delete-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0,0,0,0.6);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  font-size: 16px;
+  z-index: 10;
 }
 
 /* Modal Styles */

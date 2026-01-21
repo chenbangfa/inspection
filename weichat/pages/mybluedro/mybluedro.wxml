@@ -34,24 +34,23 @@
 
 <view wx:for="{{odlist}}" wx:for-item="articles" wx:key="id" wx:for-index="id" style="float: left; width: 100%;">
   <view wx:for="{{articles}}" wx:for-item="item" wx:key="id" wx:for-index="index" class="articles">
-  <navigator url="../blueinspect/blueinspect?id={{item.id}}">
+  <view bindtap="checkInspectMode" data-id="{{item.id}}" data-isxjfs="{{item.isxjfs}}" data-dropno="{{item.dropNo}}">
     <view class="vpic">
     <image src='https://xj.tajian.cc/servers/{{item.dropPhoto}}' class="pic" mode="aspectFill"></image>
     </view> 
     <view class="vtit">
       <view class="tit">{{item.dropName }}</view>
     </view>    
-  </navigator>
+  </view>
     <view class="vinfo" style="line-height: 22px;">
-  <navigator url="../blueinspect/blueinspect?id={{item.id}}">
+  <view bindtap="checkInspectMode" data-id="{{item.id}}" data-isxjfs="{{item.isxjfs}}" data-dropno="{{item.dropNo}}">
       <view class="vlist">编号：{{item.dropNo}}</view>
       <view class="vlist">分类：{{item.dropClass}}</view>
       <view class="vlist">{{item.patrolCycle}}巡检{{item.patrolNum }}次，每次间隔{{item.patrolDiff}}{{item.patrolCycle=="每天"?"小时":"天"}}</view>  
       <view class="vlist" wx:if="{{item.addTime!=''}}" style="margin-top: 5px;">
         <view class="vspan">最近巡检：{{item.addTime}}</view> 
-      </view>
-      
-    </navigator>
+      </view>      
+    </view>
       <view class="vlist" style="margin-top:10px; padding-bottom: 10px;">
         <span style="float: left; color: #ffa41e;">已巡检{{item.xjcount}}次！</span>
         <span style="float: right;background-color: #e0faf8; padding:1px 5px; border-radius: 6px; margin-right:10px;{{item.xjtit=='已到巡检时间'?'color: #f00;':'color: #3ccbda;'}}">

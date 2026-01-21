@@ -86,7 +86,7 @@
 </view>
 
 <!-- 巡检模板设置 -->
-<view class="card-container">
+<view class="card-container" wx:if="{{false}}">
     <view class="card-title dark-text">创建巡检模版</view>
     <view class="template-grid">
         <navigator url="../inspectset/inspectset?id=2" class="template-box">
@@ -117,7 +117,7 @@
 </view>
 
 <!-- 管理专区 -->
-<view class="card-container">
+<view class="card-container" wx:if="{{false}}">
     <view class="card-title dark-text">摊位规范管理</view>
     <view class="template-grid">
         <navigator url="../stall/stall" class="template-box">

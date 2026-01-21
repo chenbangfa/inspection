@@ -25,6 +25,11 @@ Page({
     assignRequest: '',
     assignDeadline: '',
     people: [],
+
+    // Rectification Execution Data
+    myhyid: app.globalData.hyid,
+    zgImgs: [],
+    zgInputInfo: '',
   },
   /**
    * 生命周期函数--监听页面加载
@@ -32,7 +37,8 @@ Page({
   onLoad: function (options) {
     this.data.period = new GetPeriod();
     this.setData({
-      id: options.id
+      id: options.id,
+      myhyid: app.globalData.hyid // Ensure we have the current user ID
     })
     this.loaddongtai(this);
   },
@@ -47,6 +53,135 @@ Page({
   hidecode: function () {
     this.setData({
       showcode: false,
+    });
+  },
+
+  // ============================
+  // Rectification Execution Logic
+  // ============================
+
+  chooseZgImage: function () {
+    var that = this;
+    wx.chooseImage({
+      count: 9 - that.data.zgImgs.length,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        // Upload images immediately or just display? 
+        // Strategy: Upload immediately to get URL, then submit URL string.
+        var tempFilePaths = res.tempFilePaths;
+        that.uploadimgs({
+          url: 'https://xj.tajian.cc/servers/data/upload.php',
+          path: tempFilePaths
+        });
+      }
+    })
+  },
+
+  // Recursively upload images
+  uploadimgs: function (data) {
+    var that = this,
+      i = data.i ? data.i : 0,
+      success = data.success ? data.success : 0,
+      fail = data.fail ? data.fail : 0;
+
+    wx.showLoading({ title: '上传中 ' + (i + 1) + '/' + data.path.length });
+
+    wx.uploadFile({
+      url: data.url,
+      filePath: data.path[i],
+      name: 'file',
+      formData: null,
+      success: (resp) => {
+        if (resp.data != '0') {
+          success++;
+          var newImg = "image/xc/" + resp.data; // Assuming server returns filename
+          var currentImgs = that.data.zgImgs;
+          currentImgs.push(newImg);
+          that.setData({ zgImgs: currentImgs });
+        } else {
+          fail++;
+          console.log('upload fail');
+        }
+      },
+      fail: (res) => {
+        fail++;
+        console.log('fail:' + i + "fail:" + fail);
+      },
+      complete: () => {
+        i++;
+        if (i == data.path.length) {
+          wx.hideLoading();
+          // console.log('执行完毕');
+          // console.log('成功：' + success + " 失败：" + fail);
+        } else {
+          data.i = i;
+          data.success = success;
+          data.fail = fail;
+          that.uploadimgs(data);
+        }
+      }
+    });
+  },
+
+  deleteZgImg: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var imgs = this.data.zgImgs;
+    imgs.splice(index, 1);
+    this.setData({ zgImgs: imgs });
+  },
+
+  inputZgInfo: function (e) {
+    this.setData({ zgInputInfo: e.detail.value });
+  },
+
+  submitRectification: function () {
+    var that = this;
+    if (this.data.zgImgs.length === 0 && !this.data.zgInputInfo) {
+      wx.showToast({ title: '请至少上传照片或填写说明', icon: 'none' });
+      return;
+    }
+
+    wx.showModal({
+      title: '确认提交',
+      content: '提交后任务将标记为“已整改”，是否确认？',
+      success: function (res) {
+        if (res.confirm) {
+          that.doSubmitRectification();
+        }
+      }
+    });
+  },
+
+  doSubmitRectification: function () {
+    var that = this;
+    var zgPhotoStr = "";
+    if (this.data.zgImgs.length > 0) {
+      zgPhotoStr = this.data.zgImgs.join("|") + "|"; // Add trailing pipe if needed by legacy
+    }
+
+    wx.showLoading({ title: '提交中...' });
+
+    wx.request({
+      url: 'https://xj.tajian.cc/servers/data/ajaxchat.php',
+      data: {
+        tag: "update_rectification",
+        id: this.data.id,
+        zgPhoto: zgPhotoStr,
+        zgInfo: this.data.zgInputInfo,
+        zgState: 2 // Mark as Completed
+      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: function (res) {
+        wx.hideLoading();
+        if (res.data.st == "1") {
+          wx.showToast({ title: '整改已提交', icon: 'success' });
+          // Refresh page
+          that.loaddongtai(that);
+        } else {
+          wx.showToast({ title: res.data.msg || '提交失败', icon: 'none' });
+        }
+      }
     });
   },
 

@@ -87,6 +87,33 @@
       </view>
   </view>
 
+  <!-- Rectification Operation Area (For Assigned User) -->
+  <view class="card" wx:if="{{item.zgUserId == myhyid && item.State != '2'}}">
+    <view class="section-title">执行整改</view>
+    
+    <view class="card-row">
+       <view class="label" style="width: auto;">请上传整改后照片与说明</view>
+    </view>
+
+    <view class="photo-grid">
+       <block wx:for="{{zgImgs}}" wx:key="*this">
+          <view class="photo-wrap">
+             <image src="{{item}}" mode="aspectFill" class="grid-photo" bindtap="previewZgImg" data-url="{{item}}"></image>
+             <view class="delete-btn" bindtap="deleteZgImg" data-index="{{index}}">×</view>
+          </view>
+       </block>
+       <view class="add-photo" bindtap="chooseZgImage" wx:if="{{zgImgs.length < 9}}">
+          <image src="https://xj.tajian.cc/servers/image/addpic.png" mode="aspectFit"></image>
+       </view>
+    </view>
+
+    <view style="margin-top: 15px;">
+        <textarea placeholder="请输入整改情况说明..." bindinput="inputZgInfo" value="{{zgInputInfo}}" style="background:#f9f9f9; padding: 10px; border-radius: 4px; width: 100%; height: 100px; box-sizing: border-box; font-size: 14px;"/>
+    </view>
+
+    <button type="primary" bindtap="submitRectification" style="margin-top: 20px; width: 100%;">完成整改</button>
+  </view>
+
 </view>
 
 
